@@ -1,0 +1,4 @@
+[submodule "Libft"]
+	path = Libft
+	url = https://github.com/makecy/Libft.git
+	ignore = dirty
