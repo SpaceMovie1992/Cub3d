@@ -3,7 +3,7 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -g -I./inc
 MLXFLAGS = -lm -lglfw -lpthread
 
-LIBFT = ./Libft/libft.a
+LIB = ./libraries/libraries.a
 MLX = ./MLX42/build/libmlx42.a
 
 BINDIR = bin
@@ -13,14 +13,13 @@ OBJS = $(SRCS:%.c=$(BINDIR)/%.o)
 
 all: $(NAME)
 
-$(NAME): $(LIBFT) $(MLX) $(OBJS)
-	@$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT) $(MLX) $(MLXFLAGS)
+$(NAME): $(LIB) $(MLX) $(OBJS)
+	@$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIB) $(MLX) $(MLXFLAGS)
 	@echo $(GREEN)"Building $(NAME)"$(DEFAULT);
 
-$(BINDIR);
+$(BINDIR):
 	@mkdir -p $(BINDIR)
 
-$(MLX):
 $(MLX):
 	@if [ ! -d "MLX42" ]; then \
 		git clone https://github.com/codam-coding-college/MLX42.git && \
@@ -31,25 +30,25 @@ $(BINDIR)/%.o: %.c | $(BINDIR)
 	@mkdir -p $(dir $@)  # Ensure any needed subdirectories are created
 	@$(CC) $(CFLAGS) -c $< -o $@
 
-$(LIBFT):
-	@if [ ! -d "libft" ]; then \
-		echo "Cloning libft..."; \
-		git clone git@github.com:ygalsk/libft.git libft && \
+$(LIB):
+	@if [ ! -d "libraries" ]; then \
+		echo "Cloning libraries..."; \
+		git clone git@github.com:makecy/libraries.git && \
 		git submodule update --init --recursive && \
-		make -C libft; \
+		make -C libraries; \
 	else \
-		make -C libft; \
+		make -C libraries; \
 	fi
 
 clean:
 	@rm -rf $(BINDIR)
-	@make -C libft clean
+	@make -C libraries clean
 	@echo $(RED)"Removing $(NAME) object files"$(DEFAULT);
 
 fclean: clean
 	@rm -f $(NAME)
 	@rm -rf MLX42
-	@make -C libft fclean
+	@make -C libraries fclean
 	@echo $(RED)"Removing $(NAME) and MLX42"$(DEFAULT);
 
 re: fclean all

@@ -6,7 +6,7 @@
 /*   By: ahusic <ahusic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 20:09:48 by ahusic            #+#    #+#             */
-/*   Updated: 2024/11/30 21:27:31 by ahusic           ###   ########.fr       */
+/*   Updated: 2024/12/30 22:48:02 by ahusic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,36 @@ typedef struct s_player
 	double	angle;
 	float	fov;
 	int		rotation;
-	int		l_r; // left and right flag
-	int		u_d; // up and down flag
+	int		l_r;
+	int		u_d;
 }	t_player;
 
 typedef struct s_ray
 {
 	double	angle;
 	double	distance;
-	// need to add more
+	int		wall_hit;
+	double	hit_x;
+	double	hit_y;
 }	t_ray;
+
+typedef struct s_data
+{
+	char		**map;
+	int			map_width;
+	int			map_height;
+	char		*no_texture;
+	char		*so_texture;
+	char		*we_texture;
+	char		*ea_texture;
+	char		*path;
+	int			fd;
+	int			height;
+	int			width;
+	int			floor_color;
+	int			ceiling_color;
+	int			pos_x;
+	int			pos_y;
+}	t_data;
 
 #endif
