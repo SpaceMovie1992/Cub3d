@@ -6,7 +6,7 @@
 /*   By: ahusic <ahusic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 18:11:19 by ahusic            #+#    #+#             */
-/*   Updated: 2025/01/01 18:42:30 by ahusic           ###   ########.fr       */
+/*   Updated: 2025/01/05 19:27:02 by ahusic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	check_file_extension(char *filename)
 		printf("Error\nNo file extension found\n");
 		return (0);
 	}
-	if (ft_strcmp(dot, ".cub") != 0)
+	if (ft_strncmp(dot, ".cub\0", 5) != 0)
 	{
 		printf("Error\n Invalid file extension\n");
 		return (0);
@@ -47,7 +47,7 @@ int	check_color(char **rgb)
 		return (0);
 	if (!is_rgb(rgb[0]) || !is_rgb(rgb[1]) || !is_rgb(rgb[2]))
 		return (0);
-	if (ft_atoi(rgb[0]) < 0 || t_atoi(rgb[0]) > 255
+	if (ft_atoi(rgb[0]) < 0 || ft_atoi(rgb[0]) > 255
 		|| ft_atoi(rgb[1]) < 0 || ft_atoi(rgb[1]) > 255
 		|| ft_atoi(rgb[2]) < 0 || ft_atoi(rgb[2]) > 255)
 		return (0);

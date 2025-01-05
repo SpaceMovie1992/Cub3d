@@ -6,7 +6,7 @@
 /*   By: ahusic <ahusic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 18:29:58 by ahusic            #+#    #+#             */
-/*   Updated: 2025/01/05 17:46:37 by ahusic           ###   ########.fr       */
+/*   Updated: 2025/01/05 19:23:15 by ahusic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,5 +77,24 @@ int	check_valid_position(t_data *data, int x, int y)
 		return (0);
 	if (x >= ft_strlen(data->map[y - 1]))
 		return (0);
+	return (1);
+}
+
+int	save_position(t_data *data, int x, int y)
+{
+	if (data->pos_x >= 0 || data->pos_y >= 0)
+		return (printf("Error\nMultiple player positions found\n"), 0);
+	data->pos_x = x;
+	data->pos_y = y;
+	data->player_dir = data->map[x][y];
+	return (1);
+}
+
+int	is_map_complete(t_data *data)
+{
+	if (!data->map || !data->no_texture || !data->so_texture
+		|| !data->we_texture || !data->ea_texture || data->floor_color == -1
+		|| data->ceiling_color == -1 || data->pos_x == -1)
+		return (printf("Error\nIncomplete map data\n"), 0);
 	return (1);
 }
