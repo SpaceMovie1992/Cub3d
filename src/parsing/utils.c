@@ -6,15 +6,15 @@
 /*   By: ahusic <ahusic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 22:34:20 by ahusic            #+#    #+#             */
-/*   Updated: 2024/12/30 22:49:38 by ahusic           ###   ########.fr       */
+/*   Updated: 2025/01/05 17:19:17 by ahusic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
 
-int	convert_rgb(int r, int g, int b)
+int	convert_rgb(int r, int g, int b, int a)
 {
-	return (r << 16 | g << 8 | b);
+	return (r << 24 | g << 16 | b << 8 | a);
 }
 
 char	*skip_newline(int fd)
@@ -34,10 +34,10 @@ int	is_texture(char *line)
 {
 	if (!line || ft_strlen(line) < 2)
 		return (0);
-	return ((line[0] == 'N' && line[0] == 'O') ||
-			(line[0] == 'S' && line[1] == 'O') ||
-			(line[0] == 'W' && line[1] == 'E') ||
-			(line[0] == 'E' && line[1] == 'A'));
+	return ((line[0] == 'N' && line[0] == 'O')
+		|| (line[0] == 'S' && line[1] == 'O')
+		|| (line[0] == 'W' && line[1] == 'E')
+		|| (line[0] == 'E' && line[1] == 'A'));
 }
 
 int	is_color(char *content)

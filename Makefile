@@ -8,7 +8,11 @@ MLX = ./MLX42/build/libmlx42.a
 
 BINDIR = bin
 
-SRCS = src/main.c
+SRCS = src/main.c src/parsing/checks.c \
+				src/parsing/map_check.c \
+				src/parsing/parsing.c \
+				src/parsing/utils_map.c \
+				src/parsing/utils.c
 OBJS = $(SRCS:%.c=$(BINDIR)/%.o)
 
 all: $(NAME)

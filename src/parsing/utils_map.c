@@ -6,7 +6,7 @@
 /*   By: ahusic <ahusic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 18:45:29 by ahusic            #+#    #+#             */
-/*   Updated: 2024/12/30 19:21:20 by ahusic           ###   ########.fr       */
+/*   Updated: 2025/01/05 17:11:00 by ahusic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,3 +89,46 @@ int	file_to_map(int fd, t_data *map, char *line)
 	return (1);
 }
 
+void	free_2d_array(char **array)
+{
+	int	i;
+
+	i = 0;
+	if (!array)
+		return ;
+	while (array[i])
+	{
+		free(array[i]);
+		i++;
+	}
+	free(array);
+}
+
+int	save_texture(t_data *data, char *id, char *path)
+{
+	if (!ft_strcmp(id, "NO", 2))
+	{
+		if (data->no_texture)
+			return (0);
+		data->no_texture = ft_strdup(path);
+	}
+	else if (!ft_strcmp(id, "SO", 2))
+	{
+		if (data->so_texture)
+			return (0);
+		data->so_texture = ft_strdup(path);
+	}
+	else if (!ft_strcmp(id, "WE", 2))
+	{
+		if (data->we_texture)
+			return (0);
+		data->we_texture = ft_strdup(path);
+	}
+	else if (!ft_strcmp(id, "EA", 2))
+	{
+		if (data->ea_texture)
+			return (0);
+		data->ea_texture = ft_strdup(path);
+	}
+	return (1);
+}

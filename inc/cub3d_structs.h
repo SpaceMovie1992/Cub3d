@@ -6,7 +6,7 @@
 /*   By: ahusic <ahusic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 20:09:48 by ahusic            #+#    #+#             */
-/*   Updated: 2024/12/30 22:48:02 by ahusic           ###   ########.fr       */
+/*   Updated: 2025/01/05 17:39:27 by ahusic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,6 @@ typedef struct s_ray
 typedef struct s_data
 {
 	char		**map;
-	int			map_width;
-	int			map_height;
 	char		*no_texture;
 	char		*so_texture;
 	char		*we_texture;
