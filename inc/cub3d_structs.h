@@ -6,7 +6,7 @@
 /*   By: ahusic <ahusic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 20:09:48 by ahusic            #+#    #+#             */
-/*   Updated: 2025/01/05 17:39:27 by ahusic           ###   ########.fr       */
+/*   Updated: 2025/01/10 17:47:16 by ahusic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # define SPEED 5
 # define ROTATION_SPEED 0.045
 # define PLAYER_SPEED 4
-# define M_PI 3.14159265358979323846
+// # define M_PI 3.14159265358979323846
 # define NORTH 4.7123889804 // 3 * PI / 2
 # define SOUTH 1.5707963268 // PI / 2
 # define WEST 3.1415926535 // PI
@@ -54,6 +54,7 @@ typedef struct s_data
 	char		*we_texture;
 	char		*ea_texture;
 	char		*path;
+	char		player_dir;
 	int			fd;
 	int			height;
 	int			width;

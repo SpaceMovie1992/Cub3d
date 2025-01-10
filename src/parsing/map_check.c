@@ -6,7 +6,7 @@
 /*   By: ahusic <ahusic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 18:29:58 by ahusic            #+#    #+#             */
-/*   Updated: 2025/01/05 19:23:15 by ahusic           ###   ########.fr       */
+/*   Updated: 2025/01/10 18:04:50 by ahusic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,12 +70,10 @@ int	check_valid_position(t_data *data, int x, int y)
 	if (x <= 0 || x >= data->width - 1 || y <= 0 || y >= data->height - 1)
 		return (0);
 	if (data->map[y - 1][x] == ' ' || data->map[y + 1][x] == ' ' ||
-		data->map[y][x - 1] == ' ' || data->map[y][x + 1] == ' ')
-		return (0);
-	if (data->map[y - 1][x] == '\0' || data->map[y + 1][x] == '\0' ||
-		data->map[y][x - 1] == '\0' || data->map[y][x + 1] == '\0')
-		return (0);
-	if (x >= ft_strlen(data->map[y - 1]))
+		data->map[y][x - 1] == ' ' || data->map[y][x + 1] == ' ' ||
+		data->map[y - 1][x] == '\0' || data->map[y + 1][x] == '\0' ||
+		data->map[y][x - 1] == '\0' || data->map[y][x + 1] == '\0' ||
+		x >= (int)ft_strlen(data->map[y - 1]))
 		return (0);
 	return (1);
 }

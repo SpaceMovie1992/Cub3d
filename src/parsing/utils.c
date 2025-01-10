@@ -6,7 +6,7 @@
 /*   By: ahusic <ahusic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 22:34:20 by ahusic            #+#    #+#             */
-/*   Updated: 2025/01/05 17:19:17 by ahusic           ###   ########.fr       */
+/*   Updated: 2025/01/10 18:42:09 by ahusic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,9 @@ int	is_texture(char *line)
 
 int	is_color(char *content)
 {
-	if (!ft_strcmp(content, "F", 2))
+	if (!ft_strncmp(content, "F", 2))
 		return (1);
-	if (!ft_strcmp(content, "C", 2))
+	if (!ft_strncmp(content, "C", 2))
 		return (1);
 	return (0);
 }

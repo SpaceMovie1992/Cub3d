@@ -6,7 +6,7 @@
 /*   By: ahusic <ahusic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 18:11:19 by ahusic            #+#    #+#             */
-/*   Updated: 2025/01/05 19:27:02 by ahusic           ###   ########.fr       */
+/*   Updated: 2025/01/06 18:05:53 by ahusic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	check_texture(char *path)
 
 int	check_color(char **rgb)
 {
-	if (!rgb[0] || !rgb[1] || !rgb[2][0] == '\n')
+	if (!rgb[0] || !rgb[1] || !rgb[2] || !(rgb[2][0] == '\n'))
 		return (0);
 	if (!is_rgb(rgb[0]) || !is_rgb(rgb[1]) || !is_rgb(rgb[2]))
 		return (0);

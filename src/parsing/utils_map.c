@@ -6,7 +6,7 @@
 /*   By: ahusic <ahusic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 18:45:29 by ahusic            #+#    #+#             */
-/*   Updated: 2025/01/05 17:11:00 by ahusic           ###   ########.fr       */
+/*   Updated: 2025/01/10 18:28:25 by ahusic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,25 +106,25 @@ void	free_2d_array(char **array)
 
 int	save_texture(t_data *data, char *id, char *path)
 {
-	if (!ft_strcmp(id, "NO", 2))
+	if (!ft_strncmp(id, "NO", 2))
 	{
 		if (data->no_texture)
 			return (0);
 		data->no_texture = ft_strdup(path);
 	}
-	else if (!ft_strcmp(id, "SO", 2))
+	else if (!ft_strncmp(id, "SO", 2))
 	{
 		if (data->so_texture)
 			return (0);
 		data->so_texture = ft_strdup(path);
 	}
-	else if (!ft_strcmp(id, "WE", 2))
+	else if (!ft_strncmp(id, "WE", 2))
 	{
 		if (data->we_texture)
 			return (0);
 		data->we_texture = ft_strdup(path);
 	}
-	else if (!ft_strcmp(id, "EA", 2))
+	else if (!ft_strncmp(id, "EA", 2))
 	{
 		if (data->ea_texture)
 			return (0);

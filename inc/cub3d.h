@@ -6,7 +6,7 @@
 /*   By: ahusic <ahusic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 21:12:53 by ahusic            #+#    #+#             */
-/*   Updated: 2025/01/05 17:49:39 by ahusic           ###   ########.fr       */
+/*   Updated: 2025/01/10 18:25:45 by ahusic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <stdbool.h>
 # include "../MLX42/include/MLX42/MLX42.h"
 # include "../libraries/Libft/libft.h"
+# include "../libraries/get_next_line/get_next_line_bonus.h"
 # include "cub3d_structs.h"
 
 // Checks
@@ -48,6 +49,7 @@ int		is_rgb(char *str);
 int		char_position_check(t_data *data);
 int		map_check(t_data *data);
 int		check_valid_position(t_data *data, int x, int y);
+int		is_map_complete(t_data *data);
 
 // Parsing
 int		map_parse(int fd, t_data *data, char *line);
