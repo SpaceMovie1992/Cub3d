@@ -38,7 +38,6 @@ $(LIB):
 	@if [ ! -d "libraries" ]; then \
 		echo "Cloning libraries..."; \
 		git clone git@github.com:makecy/libraries.git && \
-		git submodule update --init --recursive && \
 		make -C libraries; \
 	else \
 		make -C libraries; \
@@ -52,8 +51,9 @@ clean:
 fclean: clean
 	@rm -f $(NAME)
 	@rm -rf MLX42
-	@make -C libraries fclean
+	@rm -rf libraries fclean
 	@echo $(RED)"Removing $(NAME) and MLX42"$(DEFAULT);
+	@echo $(RED)"Removing libraries"$(DEFAULT);
 
 re: fclean all
 	@echo $(GREEN)"Rebuilding everything"$(DEFAULT);
