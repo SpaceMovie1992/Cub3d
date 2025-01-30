@@ -1,4 +1,0 @@
-[submodule "libraries"]
-	path = libraries
-	url = git@github.com:makecy/libraries.git
-	ignore = dirty

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahusic <ahusic@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mstefano <mstefano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 18:45:29 by ahusic            #+#    #+#             */
-/*   Updated: 2025/01/10 18:28:25 by ahusic           ###   ########.fr       */
+/*   Updated: 2025/01/30 21:53:48 by mstefano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,25 @@ int	check_newline(char *str)
 {
 	int	i;
 	int	nl_count;
+	int	in_map_section;
 
+	in_map_section = 0;
 	i = 0;
 	nl_count = 0;
 	while (str[i])
 	{
 		if (str[i] == '\n')
 		{
-			if (nl_count > 0)
+			if (in_map_section && nl_count > 0)
 				return (printf("Error\nInvalid map/map info\n"), 0);
 			nl_count++;
 		}
 		else
+		{
 			nl_count = 0;
+			if (!in_map_section && (str[i] == '0' || str[i] == '1' || str[i] == 'N' || str[i] == 'S' || str[i] == 'W' || str[i] == 'E'))
+				in_map_section = 1;
+		}
 		i++;
 	}
 	return (1);
@@ -80,6 +86,7 @@ int	file_to_map(int fd, t_data *map, char *line)
 		map->height++;
 		line = get_next_line(fd);
 	}
+	printf("Map string:\n%s\n", map_str);
 	if (!check_newline(map_str))
 		return (free(map_str), 0);
 	map->map = ft_split(map_str, '\n');

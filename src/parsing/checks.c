@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checks.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahusic <ahusic@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mstefano <mstefano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 18:11:19 by ahusic            #+#    #+#             */
-/*   Updated: 2025/01/06 18:05:53 by ahusic           ###   ########.fr       */
+/*   Updated: 2025/01/30 21:47:27 by mstefano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,30 +54,3 @@ int	check_color(char **rgb)
 	return (1);
 }
 
-
-// int	check_file_path(t_data *map, char *path)
-// {
-// 	char	buffer[1];
-// 	ssize_t	read_result;
-
-// 	if (!map || !path)
-// 		return (printf("Error\nInvalid map or path\n"), 0);
-// 	if ((map->fd = open(path, O_RDONLY)) < 0)
-// 		return (printf("Error\nCannot open file\n"), 0);
-// 	read_result = read(map->fd, buffer, 1);
-// 	if (read_result <= 0)
-// 	{
-// 		close(map->fd);
-// 		return (printf("Error\nFile is not readable\n"), map->fd = -1, 0);
-// 	}
-// 	close(map->fd);
-// 	map->fd = open(path, O_RDONLY);
-// 	map->path = ft_strdup(path);
-// 	if (map->fd < 0 || !map->path)
-// 	{
-// 		if (map->fd >= 0)
-// 			close(map->fd);
-// 		return (map->fd = -1, 0);
-// 	}
-// 	return (1);
-// }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahusic <ahusic@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mstefano <mstefano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 21:58:18 by ahusic            #+#    #+#             */
-/*   Updated: 2025/01/05 17:44:28 by ahusic           ###   ########.fr       */
+/*   Updated: 2025/01/30 19:30:55 by mstefano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ int	map_parse(int fd, t_data *data, char *line)
 {
 	data->pos_x = -1;
 	data->pos_y = -1;
-
 	if (!file_to_map(fd, data, line))
 		return (0);
 	if (!char_position_check(data) || !map_check(data))

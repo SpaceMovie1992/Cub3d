@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahusic <ahusic@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mstefano <mstefano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 21:12:53 by ahusic            #+#    #+#             */
-/*   Updated: 2025/01/10 18:25:45 by ahusic           ###   ########.fr       */
+/*   Updated: 2025/01/30 21:04:05 by mstefano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,5 +56,12 @@ int		map_parse(int fd, t_data *data, char *line);
 int		texture_parse(char *content, t_data *data);
 int		color_parse(char *content, t_data *data, char type);
 int		save_content(char *content, t_data *data, int fd);
+
+// Raycasting
+
+t_ray	cast_ray(t_data *data, t_player *player, double ray_angle);
+void	draw_scene(t_data *data, t_player *player, mlx_image_t *img);
+void	key_hook(void *param);
+void	init_player(t_data *data);
 
 #endif

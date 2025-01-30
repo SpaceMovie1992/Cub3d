@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_structs.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahusic <ahusic@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mstefano <mstefano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 20:09:48 by ahusic            #+#    #+#             */
-/*   Updated: 2025/01/10 17:47:16 by ahusic           ###   ########.fr       */
+/*   Updated: 2025/01/30 20:52:42 by mstefano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 # define SPEED 5
 # define ROTATION_SPEED 0.045
 # define PLAYER_SPEED 4
-// # define M_PI 3.14159265358979323846
 # define NORTH 4.7123889804 // 3 * PI / 2
 # define SOUTH 1.5707963268 // PI / 2
 # define WEST 3.1415926535 // PI
@@ -62,6 +61,8 @@ typedef struct s_data
 	int			ceiling_color;
 	int			pos_x;
 	int			pos_y;
+	mlx_t		*mlx;
+	t_player	player;
 }	t_data;
 
 #endif
