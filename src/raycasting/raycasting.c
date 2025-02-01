@@ -6,7 +6,7 @@
 /*   By: mstefano <mstefano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 20:11:55 by mstefano          #+#    #+#             */
-/*   Updated: 2025/02/01 18:09:49 by mstefano         ###   ########.fr       */
+/*   Updated: 2025/02/01 20:45:59 by mstefano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,21 +86,22 @@ t_ray	cast_ray(t_data *data, t_player *player, double ray_angle)
 void draw_scene(t_data *data, mlx_image_t *img)
 {
     if (!data || !img)
-        return;
-
+        return ;
+    if (!data->map)
+        return ;
     for (int x = 0; x < SCREEN_WIDTH; x++)
     {
         double camera_x = 2 * x / (double)SCREEN_WIDTH - 1;
-        double ray_dir_x = cos(data->player.angle) + data->plane_x * camera_x;
-        double ray_dir_y = sin(data->player.angle) + data->plane_y * camera_x;
+        double ray_dir_x = cos(data->player.angle) - sin(data->player.angle) * camera_x;
+        double ray_dir_y = -sin(data->player.angle) - cos(data->player.angle) * camera_x;
         int map_x = (int)(data->player.player_x / TILE_SIZE);
         int map_y = (int)(data->player.player_y / TILE_SIZE);
-        double delta_dist_x = fabs(1 / ray_dir_x);
-        double delta_dist_y = fabs(1 / ray_dir_y);
-        int step_x;
-        int step_y;
+        double delta_dist_x = (ray_dir_x == 0) ? 1e30 : fabs(1 / ray_dir_x);
+        double delta_dist_y = (ray_dir_y == 0) ? 1e30 : fabs(1 / ray_dir_y);
         double side_dist_x;
         double side_dist_y;
+        int step_x;
+        int step_y;
 
         if (ray_dir_x < 0)
         {
@@ -123,7 +124,7 @@ void draw_scene(t_data *data, mlx_image_t *img)
             side_dist_y = (map_y + 1.0 - data->player.player_y / TILE_SIZE) * delta_dist_y;
         }
         int hit = 0;
-        int side;
+        int side = 0;
         while (hit == 0)
         {
             if (side_dist_x < side_dist_y)
@@ -138,6 +139,7 @@ void draw_scene(t_data *data, mlx_image_t *img)
                 map_y += step_y;
                 side = 1;
             }
+
             if (map_x < 0 || map_y < 0 || map_x >= data->width || map_y >= data->height)
                 break;
             if (data->map[map_y][map_x] == '1')
@@ -145,11 +147,9 @@ void draw_scene(t_data *data, mlx_image_t *img)
         }
         double perp_wall_dist;
         if (side == 0)
-            perp_wall_dist = (map_x - data->player.player_x / TILE_SIZE + 
-                            (1 - step_x) / 2) / ray_dir_x;
+            perp_wall_dist = side_dist_x - delta_dist_x;
         else
-            perp_wall_dist = (map_y - data->player.player_y / TILE_SIZE + 
-                            (1 - step_y) / 2) / ray_dir_y;
+            perp_wall_dist = side_dist_y - delta_dist_y;
         int line_height = (int)(SCREEN_HEIGHT / perp_wall_dist);
         int draw_start = -line_height / 2 + SCREEN_HEIGHT / 2;
         if (draw_start < 0)
@@ -158,10 +158,10 @@ void draw_scene(t_data *data, mlx_image_t *img)
         if (draw_end >= SCREEN_HEIGHT)
             draw_end = SCREEN_HEIGHT - 1;
         uint32_t color;
-        if (side == 1)
-            color = 0xFF0000FF;
+        if (side == 0)
+            color = (ray_dir_x > 0) ? 0xFF0000FF : 0xCC0000FF;
         else
-            color = 0x0000FFFF;
+            color = (ray_dir_y > 0) ? 0x0000FFFF : 0x0000CCFF;
         for (int y = draw_start; y <= draw_end; y++)
         {
             if (x >= 0 && x < SCREEN_WIDTH && y >= 0 && y < SCREEN_HEIGHT)
@@ -183,17 +183,111 @@ void key_hook(void *param)
     t_data *data;
 
     data = (t_data *)param;
-    if (!data || !data->mlx)
-        return;
-
-    if (mlx_is_key_down(data->mlx, MLX_KEY_ESCAPE))
-        mlx_close_window(data->mlx);
-
+    if (!data || !data->mlx || !data->map)
+    	return ;
     if (mlx_is_key_down(data->mlx, MLX_KEY_W))
     {
         double new_x = data->player.player_x + cos(data->player.angle) * PLAYER_SPEED;
-        double new_y = data->player.player_y + sin(data->player.angle) * PLAYER_SPEED;
-        // Check if new position is valid (not in a wall)
+        double new_y = data->player.player_y - sin(data->player.angle) * PLAYER_SPEED;
+        int map_x = (int)(new_x / TILE_SIZE);
+        int map_y = (int)(new_y / TILE_SIZE);
+        
+        if (map_x >= 0 && map_x < data->width && map_y >= 0 && map_y < data->height)
+        {
+            if (data->map[map_y][map_x] != '1')
+            {
+                data->player.player_x = new_x;
+                data->player.player_y = new_y;
+            }
+        }
+    }
+    if (mlx_is_key_down(data->mlx, MLX_KEY_S))
+    {
+        int new_x = (int)((data->player.player_x - cos(data->player.angle) * PLAYER_SPEED) / TILE_SIZE);
+        int new_y = (int)((data->player.player_y + sin(data->player.angle) * PLAYER_SPEED) / TILE_SIZE);
+        
+        if (new_x >= 0 && new_x < data->width && new_y >= 0 && new_y < data->height)
+        {
+            if (data->map[new_y][new_x] != '1')
+            {
+                data->player.player_x -= cos(data->player.angle) * PLAYER_SPEED;
+                data->player.player_y += sin(data->player.angle) * PLAYER_SPEED;
+            }
+        }
+    }
+    if (mlx_is_key_down(data->mlx, MLX_KEY_A))
+    {
+        int new_x = (int)((data->player.player_x - sin(data->player.angle) * PLAYER_SPEED) / TILE_SIZE);
+        int new_y = (int)((data->player.player_y - cos(data->player.angle) * PLAYER_SPEED) / TILE_SIZE);
+        
+        if (new_x >= 0 && new_x < data->width && new_y >= 0 && new_y < data->height)
+        {
+            if (data->map[new_y][new_x] != '1')
+            {
+                data->player.player_x -= sin(data->player.angle) * PLAYER_SPEED;
+                data->player.player_y -= cos(data->player.angle) * PLAYER_SPEED;
+            }
+        }
+    }
+    if (mlx_is_key_down(data->mlx, MLX_KEY_D))
+    {
+        int new_x = (int)((data->player.player_x + sin(data->player.angle) * PLAYER_SPEED) / TILE_SIZE);
+        int new_y = (int)((data->player.player_y + cos(data->player.angle) * PLAYER_SPEED) / TILE_SIZE);   
+        if (new_x >= 0 && new_x < data->width && new_y >= 0 && new_y < data->height)
+        {
+            if (data->map[new_y][new_x] != '1')
+            {
+                data->player.player_x += sin(data->player.angle) * PLAYER_SPEED;
+                data->player.player_y += cos(data->player.angle) * PLAYER_SPEED;
+            }
+        }
+    }
+    if (mlx_is_key_down(data->mlx, MLX_KEY_LEFT))
+    {
+        data->player.angle += ROTATION_SPEED;
+        if (data->player.angle > 2 * M_PI)
+            data->player.angle -= 2 * M_PI;
+    }
+    if (mlx_is_key_down(data->mlx, MLX_KEY_RIGHT))
+    {
+        data->player.angle -= ROTATION_SPEED;
+        if (data->player.angle < 0)
+            data->player.angle += 2 * M_PI;
+    }
+    if (mlx_is_key_down(data->mlx, MLX_KEY_ESCAPE))
+        mlx_close_window(data->mlx);
+}
+
+void init_player(t_data *data)
+{
+    if (!data || !data->map)
+        return ;
+    data->player.player_x = (double)(data->pos_x * TILE_SIZE) + (TILE_SIZE / 2.0);
+    data->player.player_y = (double)(data->pos_y * TILE_SIZE) + (TILE_SIZE / 2.0);
+    if (data->player_dir == 'N')
+        data->player.angle = 3.0 * M_PI / 2.0;
+    else if (data->player_dir == 'S')
+        data->player.angle = M_PI / 2.0;
+    else if (data->player_dir == 'E')
+        data->player.angle = 0.0;
+    else if (data->player_dir == 'W')
+        data->player.angle = M_PI;
+    data->player.fov = FOV;
+    data->player.rotation = 0;
+    data->player.l_r = 0;
+    data->player.u_d = 0;
+}
+
+void handle_keypress(void *param)
+{
+    t_data *data = (t_data *)param;
+    
+    if (!data || !data->mlx)
+        return ;
+    if (mlx_is_key_down(data->mlx, MLX_KEY_W))
+    {
+        double new_x = data->player.player_x + cos(data->player.angle) * PLAYER_SPEED;
+        double new_y = data->player.player_y - sin(data->player.angle) * PLAYER_SPEED;  // Note the minus sign
         if (data->map[(int)(new_y / TILE_SIZE)][(int)(new_x / TILE_SIZE)] != '1')
         {
             data->player.player_x = new_x;
@@ -203,7 +297,7 @@ void key_hook(void *param)
     if (mlx_is_key_down(data->mlx, MLX_KEY_S))
     {
         double new_x = data->player.player_x - cos(data->player.angle) * PLAYER_SPEED;
-        double new_y = data->player.player_y - sin(data->player.angle) * PLAYER_SPEED;
+        double new_y = data->player.player_y + sin(data->player.angle) * PLAYER_SPEED;  // Note the plus sign
         if (data->map[(int)(new_y / TILE_SIZE)][(int)(new_x / TILE_SIZE)] != '1')
         {
             data->player.player_x = new_x;
@@ -211,118 +305,39 @@ void key_hook(void *param)
         }
     }
     if (mlx_is_key_down(data->mlx, MLX_KEY_A))
-        data->player.angle -= ROTATION_SPEED;
+    {
+        double new_x = data->player.player_x - sin(data->player.angle) * PLAYER_SPEED;
+        double new_y = data->player.player_y - cos(data->player.angle) * PLAYER_SPEED;
+        if (data->map[(int)(new_y / TILE_SIZE)][(int)(new_x / TILE_SIZE)] != '1')
+        {
+            data->player.player_x = new_x;
+            data->player.player_y = new_y;
+        }
+    }
     if (mlx_is_key_down(data->mlx, MLX_KEY_D))
-        data->player.angle += ROTATION_SPEED;
-}
-
-void init_player(t_data *data)
-{
-    if (data->pos_x == -1 || data->pos_y == -1)
     {
-        printf("Error: Invalid player position\n");
-        return ;
-    }
-    data->player.player_x = data->pos_x * TILE_SIZE + (TILE_SIZE / 2);
-    data->player.player_y = data->pos_y * TILE_SIZE + (TILE_SIZE / 2);
-    if (data->player_dir == 'N')
-    {
-        data->player.angle = NORTH;
-        data->dir_x = 0;
-        data->dir_y = -1;
-        data->plane_x = 0.66;
-        data->plane_y = 0;
-    }
-    else if (data->player_dir == 'S')
-    {
-        data->player.angle = SOUTH;
-        data->dir_x = 0;
-        data->dir_y = 1;
-        data->plane_x = -0.66;
-        data->plane_y = 0;
-    }
-    else if (data->player_dir == 'W')
-    {
-        data->player.angle = WEST;
-        data->dir_x = -1;
-        data->dir_y = 0;
-        data->plane_x = 0;
-        data->plane_y = -0.66;
-    }
-    else if (data->player_dir == 'E')
-    {
-        data->player.angle = EAST;
-        data->dir_x = 1;
-        data->dir_y = 0;
-        data->plane_x = 0;
-        data->plane_y = 0.66;
-    }
-    data->player.fov = FOV;
-    data->player.rotation = 0;
-    data->player.l_r = 0;
-    data->player.u_d = 0;
-}
-
-void handle_keypress(mlx_key_data_t keydata, void *param)
-{
-    t_data *data = (t_data *)param;
-    
-    if (!data || !data->mlx)
-        return;
-    if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
-        mlx_close_window(data->mlx);
-    if (keydata.key == MLX_KEY_W && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
-    {
-        double new_x = data->player.player_x + cos(data->player.angle) * PLAYER_SPEED;
-        double new_y = data->player.player_y + sin(data->player.angle) * PLAYER_SPEED;
+        double new_x = data->player.player_x + sin(data->player.angle) * PLAYER_SPEED;
+        double new_y = data->player.player_y + cos(data->player.angle) * PLAYER_SPEED;
         if (data->map[(int)(new_y / TILE_SIZE)][(int)(new_x / TILE_SIZE)] != '1')
         {
             data->player.player_x = new_x;
             data->player.player_y = new_y;
         }
     }
-    if (keydata.key == MLX_KEY_S && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
-    {
-        double new_x = data->player.player_x - cos(data->player.angle) * PLAYER_SPEED;
-        double new_y = data->player.player_y - sin(data->player.angle) * PLAYER_SPEED;
-        if (data->map[(int)(new_y / TILE_SIZE)][(int)(new_x / TILE_SIZE)] != '1')
-        {
-            data->player.player_x = new_x;
-            data->player.player_y = new_y;
-        }
-    }
-    if (keydata.key == MLX_KEY_A && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
-    {
-        double new_x = data->player.player_x + cos(data->player.angle - M_PI/2) * PLAYER_SPEED;
-        double new_y = data->player.player_y + sin(data->player.angle - M_PI/2) * PLAYER_SPEED;
-        if (data->map[(int)(new_y / TILE_SIZE)][(int)(new_x / TILE_SIZE)] != '1')
-        {
-            data->player.player_x = new_x;
-            data->player.player_y = new_y;
-        }
-    }
-    if (keydata.key == MLX_KEY_D && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
-    {
-        double new_x = data->player.player_x + cos(data->player.angle + M_PI/2) * PLAYER_SPEED;
-        double new_y = data->player.player_y + sin(data->player.angle + M_PI/2) * PLAYER_SPEED;
-        if (data->map[(int)(new_y / TILE_SIZE)][(int)(new_x / TILE_SIZE)] != '1')
-        {
-            data->player.player_x = new_x;
-            data->player.player_y = new_y;
-        }
-    }
-    if (keydata.key == MLX_KEY_LEFT && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
-    {
-        data->player.angle -= ROTATION_SPEED;
-        if (data->player.angle < 0)
-            data->player.angle += 2 * M_PI;
-    }
-    if (keydata.key == MLX_KEY_RIGHT && (keydata.action == MLX_PRESS || keydata.action == MLX_REPEAT))
+    if (mlx_is_key_down(data->mlx, MLX_KEY_LEFT))
     {
         data->player.angle += ROTATION_SPEED;
         if (data->player.angle > 2 * M_PI)
             data->player.angle -= 2 * M_PI;
     }
+    if (mlx_is_key_down(data->mlx, MLX_KEY_RIGHT))
+    {
+        data->player.angle -= ROTATION_SPEED;
+        if (data->player.angle < 0)
+            data->player.angle += 2 * M_PI;
+    }
+    if (mlx_is_key_down(data->mlx, MLX_KEY_ESCAPE))
+        mlx_close_window(data->mlx);
 }
 
 void render_frame(void *param)
