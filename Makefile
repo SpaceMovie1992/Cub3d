@@ -1,7 +1,7 @@
 NAME = cub3D
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g -I./inc
-MLXFLAGS = -lm -lglfw -lpthread
+MLXFLAGS = -lm -lglfw -lpthread -lstdc++
 
 LIB = ./libraries/libraries.a
 MLX = ./MLX42/build/libmlx42.a

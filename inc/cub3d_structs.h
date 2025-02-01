@@ -6,7 +6,7 @@
 /*   By: mstefano <mstefano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 20:09:48 by ahusic            #+#    #+#             */
-/*   Updated: 2025/01/30 20:52:42 by mstefano         ###   ########.fr       */
+/*   Updated: 2025/02/01 17:59:33 by mstefano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct s_ray
 
 typedef struct s_data
 {
+	mlx_image_t	*img;
 	char		**map;
 	char		*no_texture;
 	char		*so_texture;
@@ -63,6 +64,14 @@ typedef struct s_data
 	int			pos_y;
 	mlx_t		*mlx;
 	t_player	player;
+	double		dir_x;
+	double		dir_y;
+	double		plane_x;
+	double		plane_y;
 }	t_data;
 
+typedef struct s_draw_params {
+    t_data      *data;
+    mlx_image_t *img;
+} t_draw_params;
 #endif

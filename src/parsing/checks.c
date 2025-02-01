@@ -6,7 +6,7 @@
 /*   By: mstefano <mstefano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 18:11:19 by ahusic            #+#    #+#             */
-/*   Updated: 2025/01/30 21:47:27 by mstefano         ###   ########.fr       */
+/*   Updated: 2025/02/01 18:23:32 by mstefano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,27 +30,34 @@ int	check_file_extension(char *filename)
 	return (1);
 }
 
-int	check_texture(char *path)
+int check_texture(char *path)
 {
-	int	fd;
+    int fd;
 
-	fd = open(path, O_RDONLY);
-	if (fd < 0)
-		return (0);
-	close(fd);
-	return (1);
+    fd = open(path, O_RDONLY);
+    if (fd < 0)
+    {
+        printf("Failed to open texture file: '%s'\n", path);
+        perror("Error");
+        return (0);
+    }
+    close(fd);
+    return (1);
 }
 
-int	check_color(char **rgb)
+int check_color(char **rgb)
 {
-	if (!rgb[0] || !rgb[1] || !rgb[2] || !(rgb[2][0] == '\n'))
-		return (0);
-	if (!is_rgb(rgb[0]) || !is_rgb(rgb[1]) || !is_rgb(rgb[2]))
-		return (0);
-	if (ft_atoi(rgb[0]) < 0 || ft_atoi(rgb[0]) > 255
-		|| ft_atoi(rgb[1]) < 0 || ft_atoi(rgb[1]) > 255
-		|| ft_atoi(rgb[2]) < 0 || ft_atoi(rgb[2]) > 255)
-		return (0);
-	return (1);
+    if (!rgb[0] || !rgb[1] || !rgb[2] || rgb[3])
+        return (0);
+    printf("R: '%s'\n", rgb[0]);
+    printf("G: '%s'\n", rgb[1]);
+    printf("B: '%s'\n", rgb[2]);
+    if (!is_rgb(rgb[0]) || !is_rgb(rgb[1]) || !is_rgb(rgb[2]))
+        return (0);
+    int r = ft_atoi(rgb[0]);
+    int g = ft_atoi(rgb[1]);
+    int b = ft_atoi(rgb[2]);
+    if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255)
+        return (0);
+    return (1);
 }
-
