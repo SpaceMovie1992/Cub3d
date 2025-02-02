@@ -6,7 +6,7 @@
 /*   By: mstefano <mstefano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 20:11:55 by mstefano          #+#    #+#             */
-/*   Updated: 2025/02/01 20:45:59 by mstefano         ###   ########.fr       */
+/*   Updated: 2025/02/02 14:38:12 by mstefano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,8 @@ void draw_scene(t_data *data, mlx_image_t *img)
         return ;
     if (!data->map)
         return ;
-    for (int x = 0; x < SCREEN_WIDTH; x++)
+	int x = 0;
+    while (x < SCREEN_WIDTH)
     {
         double camera_x = 2 * x / (double)SCREEN_WIDTH - 1;
         double ray_dir_x = cos(data->player.angle) - sin(data->player.angle) * camera_x;
@@ -167,12 +168,14 @@ void draw_scene(t_data *data, mlx_image_t *img)
             if (x >= 0 && x < SCREEN_WIDTH && y >= 0 && y < SCREEN_HEIGHT)
                 mlx_put_pixel(img, x, y, color);
         }
+		x++;
     }
 }
 
 void draw_scene_wrapper(void *param)
 {
-    t_draw_params *params = (t_draw_params *)param;
+    t_draw_params *params;
+	params = (t_draw_params *)param;
     if (!params || !params->data || !params->img)
         return;
     draw_scene(params->data, params->img);
@@ -180,8 +183,8 @@ void draw_scene_wrapper(void *param)
 
 void key_hook(void *param)
 {
-    t_data *data;
-
+    t_data	*data;
+	
     data = (t_data *)param;
     if (!data || !data->mlx || !data->map)
     	return ;
@@ -280,14 +283,17 @@ void init_player(t_data *data)
 
 void handle_keypress(void *param)
 {
-    t_data *data = (t_data *)param;
+    t_data	*data;
+	double	new_x;
+	double	new_y;
+	data = (t_data *)param;
     
     if (!data || !data->mlx)
         return ;
     if (mlx_is_key_down(data->mlx, MLX_KEY_W))
     {
-        double new_x = data->player.player_x + cos(data->player.angle) * PLAYER_SPEED;
-        double new_y = data->player.player_y - sin(data->player.angle) * PLAYER_SPEED;  // Note the minus sign
+        new_x = data->player.player_x + cos(data->player.angle) * PLAYER_SPEED;
+        new_y = data->player.player_y - sin(data->player.angle) * PLAYER_SPEED;
         if (data->map[(int)(new_y / TILE_SIZE)][(int)(new_x / TILE_SIZE)] != '1')
         {
             data->player.player_x = new_x;
@@ -296,8 +302,8 @@ void handle_keypress(void *param)
     }
     if (mlx_is_key_down(data->mlx, MLX_KEY_S))
     {
-        double new_x = data->player.player_x - cos(data->player.angle) * PLAYER_SPEED;
-        double new_y = data->player.player_y + sin(data->player.angle) * PLAYER_SPEED;  // Note the plus sign
+        new_x = data->player.player_x - cos(data->player.angle) * PLAYER_SPEED;
+        new_y = data->player.player_y + sin(data->player.angle) * PLAYER_SPEED;
         if (data->map[(int)(new_y / TILE_SIZE)][(int)(new_x / TILE_SIZE)] != '1')
         {
             data->player.player_x = new_x;
@@ -306,8 +312,8 @@ void handle_keypress(void *param)
     }
     if (mlx_is_key_down(data->mlx, MLX_KEY_A))
     {
-        double new_x = data->player.player_x - sin(data->player.angle) * PLAYER_SPEED;
-        double new_y = data->player.player_y - cos(data->player.angle) * PLAYER_SPEED;
+        new_x = data->player.player_x - sin(data->player.angle) * PLAYER_SPEED;
+        new_y = data->player.player_y - cos(data->player.angle) * PLAYER_SPEED;
         if (data->map[(int)(new_y / TILE_SIZE)][(int)(new_x / TILE_SIZE)] != '1')
         {
             data->player.player_x = new_x;
@@ -316,8 +322,8 @@ void handle_keypress(void *param)
     }
     if (mlx_is_key_down(data->mlx, MLX_KEY_D))
     {
-        double new_x = data->player.player_x + sin(data->player.angle) * PLAYER_SPEED;
-        double new_y = data->player.player_y + cos(data->player.angle) * PLAYER_SPEED;
+        new_x = data->player.player_x + sin(data->player.angle) * PLAYER_SPEED;
+        new_y = data->player.player_y + cos(data->player.angle) * PLAYER_SPEED;
         if (data->map[(int)(new_y / TILE_SIZE)][(int)(new_x / TILE_SIZE)] != '1')
         {
             data->player.player_x = new_x;
@@ -342,18 +348,25 @@ void handle_keypress(void *param)
 
 void render_frame(void *param)
 {
-    t_draw_params *params = (t_draw_params *)param;
+    t_draw_params	*params;
+	int				x;
+	int				y;
+	params = (t_draw_params *)param;
     if (!params || !params->data || !params->img)
-        return;
-    for (int y = 0; y < SCREEN_HEIGHT; y++)
+        return ;
+	y = 0;
+    while (y < SCREEN_HEIGHT)
     {
-        for (int x = 0; x < SCREEN_WIDTH; x++)
+		x = 0;
+        while (x < SCREEN_WIDTH)
         {
             if (y < SCREEN_HEIGHT / 2)
                 mlx_put_pixel(params->img, x, y, params->data->ceiling_color);
             else
                 mlx_put_pixel(params->img, x, y, params->data->floor_color);
+			x++;
         }
+		y++;
     }
     draw_scene(params->data, params->img);
 }

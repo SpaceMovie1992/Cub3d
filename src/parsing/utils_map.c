@@ -6,7 +6,7 @@
 /*   By: mstefano <mstefano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 18:45:29 by ahusic            #+#    #+#             */
-/*   Updated: 2025/02/01 18:12:50 by mstefano         ###   ########.fr       */
+/*   Updated: 2025/02/02 14:31:40 by mstefano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int file_to_map(int fd, t_data *map, char *line)
     char *map_str;
     
     if (!line || ft_strlen(line) <= 1)
-        return (printf("Error\nMissing or invalid map\n"), 0);
+        return (0);
     map_str = NULL;
     map->height = 0;
     map->width = 0;
@@ -106,7 +106,7 @@ int file_to_map(int fd, t_data *map, char *line)
         {
             if (tmp)
                 free(tmp);
-            return (printf("Error\nMemory allocation failed\n"), 0);
+            return (0);
         }   
         map->height++;
         line = get_next_line(fd);
@@ -116,7 +116,7 @@ int file_to_map(int fd, t_data *map, char *line)
     map->map = ft_split(map_str, '\n');
     free(map_str);
     if (!map->map)
-        return (printf("Error\nMemory allocation failed\n"), 0);
+        return (0);
     return (1);
 }
 

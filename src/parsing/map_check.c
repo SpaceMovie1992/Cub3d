@@ -6,7 +6,7 @@
 /*   By: mstefano <mstefano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 18:29:58 by ahusic            #+#    #+#             */
-/*   Updated: 2025/02/01 18:22:56 by mstefano         ###   ########.fr       */
+/*   Updated: 2025/02/02 14:42:40 by mstefano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,7 @@ int char_position_check(t_data *data)
     int j;
 
     if (!data || !data->map)
-    {
-        printf("Error: NULL map data\n");
         return (0);
-    }
     data->pos_x = -1;
     data->pos_y = -1;
     data->player_dir = '\0';
@@ -32,32 +29,21 @@ int char_position_check(t_data *data)
         while (data->map[i][j])
         {
             if (!ft_strchr("012NSEW ", data->map[i][j]))
-            {
-                printf("Error: Invalid character '%c' at [%d][%d]\n", 
-                       data->map[i][j], i, j);
                 return (0);
-            }
             if (ft_strchr("NSWE", data->map[i][j]))
             {
                 if (data->pos_x != -1)
-                {
-                    printf("Error: Multiple players found\n");
-                    return (0);
-                }
+                    return (printf("Error: Multiple players found\n") ,0);
                 data->pos_x = j;
                 data->pos_y = i;
                 data->player_dir = data->map[i][j];
-                printf("Player found at [%d][%d] facing %c\n", i, j, data->player_dir);
             }
             j++;
         }
         i++;
     }
     if (data->pos_x == -1 || data->pos_y == -1)
-    {
-        printf("Error: No player found in map\n");
-        return (0);
-    }
+        return (printf("Error: No player found in map\n"), 0);
     return (1);
 }
 

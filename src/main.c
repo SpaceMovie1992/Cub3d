@@ -6,7 +6,7 @@
 /*   By: mstefano <mstefano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 21:27:27 by mstefano          #+#    #+#             */
-/*   Updated: 2025/02/01 20:43:35 by mstefano         ###   ########.fr       */
+/*   Updated: 2025/02/02 14:17:12 by mstefano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,21 @@
 
 void	handle_input(t_data *data)
 {
+	double move_speed;
+	double rot_speed;
+	double newX;
+	double newY;
+	
     if (!data || !data->mlx)
         return ;
     if (mlx_is_key_down(data->mlx, MLX_KEY_ESCAPE))
         mlx_close_window(data->mlx);
-    double move_speed = PLAYER_SPEED;
-    double rot_speed = ROTATION_SPEED;
+    move_speed = PLAYER_SPEED;
+    rot_speed = ROTATION_SPEED;
     if (mlx_is_key_down(data->mlx, MLX_KEY_W))
     {
-        double newX = data->player.player_x + cos(data->player.angle) * move_speed;
-        double newY = data->player.player_y + sin(data->player.angle) * move_speed;
+        newX = data->player.player_x + cos(data->player.angle) * move_speed;
+        newY = data->player.player_y + sin(data->player.angle) * move_speed;
         if (data->map[(int)(newY / TILE_SIZE)][(int)(newX / TILE_SIZE)] != '1')
         {
             data->player.player_x = newX;
@@ -32,8 +37,8 @@ void	handle_input(t_data *data)
     }
     if (mlx_is_key_down(data->mlx, MLX_KEY_S))
     {
-        double newX = data->player.player_x - cos(data->player.angle) * move_speed;
-        double newY = data->player.player_y - sin(data->player.angle) * move_speed;
+        newX = data->player.player_x - cos(data->player.angle) * move_speed;
+        newY = data->player.player_y - sin(data->player.angle) * move_speed;
         if (data->map[(int)(newY / TILE_SIZE)][(int)(newX / TILE_SIZE)] != '1')
         {
             data->player.player_x = newX;
@@ -54,8 +59,8 @@ void	handle_input(t_data *data)
     }
     if (mlx_is_key_down(data->mlx, MLX_KEY_A))
     {
-        double newX = data->player.player_x + sin(data->player.angle) * move_speed;
-        double newY = data->player.player_y - cos(data->player.angle) * move_speed;
+        newX = data->player.player_x + sin(data->player.angle) * move_speed;
+        newY = data->player.player_y - cos(data->player.angle) * move_speed;
         if (data->map[(int)(newY / TILE_SIZE)][(int)(newX / TILE_SIZE)] != '1')
         {
             data->player.player_x = newX;
@@ -64,8 +69,8 @@ void	handle_input(t_data *data)
     }
     if (mlx_is_key_down(data->mlx, MLX_KEY_D))
     {
-        double newX = data->player.player_x - sin(data->player.angle) * move_speed;
-        double newY = data->player.player_y + cos(data->player.angle) * move_speed;
+        newX = data->player.player_x - sin(data->player.angle) * move_speed;
+        newY = data->player.player_y + cos(data->player.angle) * move_speed;
         if (data->map[(int)(newY / TILE_SIZE)][(int)(newX / TILE_SIZE)] != '1')
         {
             data->player.player_x = newX;
@@ -153,19 +158,28 @@ void render_walls(t_data *data)
     }
 }
 
-void game_loop(void *param)
+void	game_loop(void *param)
 {
-    t_data *data = (t_data *)param;
+    t_data		*data;
+	int			x;
+	int			y;
+	uint32_t	color;
+	
+	data = (t_data *)param;
     if (!data || !data->mlx || !data->img)
         return;
     handle_input(data);
-    for (int y = 0; y < SCREEN_HEIGHT; y++)
+	y = 0;
+    while (y < SCREEN_HEIGHT)
     {
-        for (int x = 0; x < SCREEN_WIDTH; x++)
+		x = 0;
+        while(x < SCREEN_WIDTH)
         {
-            uint32_t color = (y < SCREEN_HEIGHT / 2) ? data->ceiling_color : data->floor_color;
+            color = (y < SCREEN_HEIGHT / 2) ? data->ceiling_color : data->floor_color;
             mlx_put_pixel(data->img, x, y, color);
+			x++;
         }
+		y++;
     }
     render_walls(data);
 }

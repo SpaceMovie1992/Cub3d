@@ -6,7 +6,7 @@
 /*   By: mstefano <mstefano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 22:34:20 by ahusic            #+#    #+#             */
-/*   Updated: 2025/02/01 18:11:49 by mstefano         ###   ########.fr       */
+/*   Updated: 2025/02/02 16:32:42 by mstefano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	convert_rgb(int r, int g, int b, int a)
 {
-	return (r << 24 | g << 16 | b << 8 | a);
+	return (r << 0 | g << 12 | b << 24 | a);
 }
 
 char	*skip_newline(int fd)

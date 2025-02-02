@@ -6,7 +6,7 @@
 /*   By: mstefano <mstefano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 21:12:53 by ahusic            #+#    #+#             */
-/*   Updated: 2025/02/01 20:23:28 by mstefano         ###   ########.fr       */
+/*   Updated: 2025/02/02 14:46:31 by mstefano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,9 @@ void	init_player(t_data *data);
 void	init_data(t_data *data);
 void	game_loop(void *param);
 void	draw_scene_wrapper(void *param);
-// void 	handle_keypress(mlx_key_data_t keydata, void *param);
-void handle_keypress(void *param);
+void	handle_keypress(void *param);
 void 	render_frame(void *param);
 void 	draw_scene(t_data *data, mlx_image_t *img);
 
+// void 	handle_keypress(mlx_key_data_t keydata, void *param);
 #endif
