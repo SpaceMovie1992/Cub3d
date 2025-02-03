@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_structs.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahusic <ahusic@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mstefano <mstefano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 20:09:48 by ahusic            #+#    #+#             */
-/*   Updated: 2025/02/03 22:10:31 by ahusic           ###   ########.fr       */
+/*   Updated: 2025/02/03 20:19:25 by mstefano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,14 @@
 # define SOUTH 1.5707963268
 # define WEST 3.1415926535
 # define EAST 0
+# define MINIMAP_SCALE 0.2
+# define MINIMAP_TILE_SIZE 10
+# define MINIMAP_PADDING 20
+# define MINIMAP_PLAYER_SIZE 4
+# define MINIMAP_WALL_COLOR 0xFFFFFFFF
+# define MINIMAP_FLOOR_COLOR 0x444444FF
+# define MINIMAP_PLAYER_COLOR 0xFF0000FF
+# define MINIMAP_BORDER_COLOR 0x888888FF
 
 typedef struct s_player
 {
@@ -34,6 +42,8 @@ typedef struct s_player
 	int		rotation;
 	int		l_r;
 	int		u_d;
+	double	prev_x;
+	double	prev_y;
 }	t_player;
 
 typedef struct s_ray
@@ -45,42 +55,48 @@ typedef struct s_ray
 	double	hit_y;
 }	t_ray;
 
-typedef struct s_texture
+typedef struct s_minimap
 {
-	mlx_texture_t	*img;
+	int			size;
+	int			pos_x;
+	int			pos_y;
 	int			width;
 	int			height;
-	char		*path;
-	mlx_texture_t *texture;
-}	t_texture;
+	mlx_image_t	*img;
+	bool	is_visible;
+}   t_minimap;
+
 typedef struct s_data
 {
-	mlx_image_t		*img;
-	char			**map;
-	t_texture		*no_texture;
-	t_texture		*so_texture;
-	t_texture		*we_texture;
-	t_texture		*ea_texture;
-	char			*path;
-	char			player_dir;
-	int				fd;
-	int				height;
-	int				width;
-	int				floor_color;
-	int				ceiling_color;
-	int				pos_x;
-	int				pos_y;
-	void			*mlx;
-	t_player		player;
-	double			dir_x;
-	double			dir_y;
-	double			plane_x;
-	double			plane_y;
+	mlx_image_t	*img;
+	char		**map;
+	char		*no_texture;
+	char		*so_texture;
+	char		*we_texture;
+	char		*ea_texture;
+	char		*path;
+	char		player_dir;
+	int			fd;
+	int			height;
+	int			width;
+	int			floor_color;
+	int			ceiling_color;
+	int			pos_x;
+	int			pos_y;
+	mlx_t		*mlx;
+	t_player	player;
+	double		dir_x;
+	double		dir_y;
+	double		plane_x;
+	double		plane_y;
+	void		*win;
+	t_minimap	minimap;
 }	t_data;
 
 typedef struct s_draw_params {
     t_data      *data;
     mlx_image_t *img;
 } t_draw_params;
+
 
 #endif

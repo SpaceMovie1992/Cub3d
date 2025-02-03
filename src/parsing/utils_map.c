@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahusic <ahusic@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mstefano <mstefano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 18:45:29 by ahusic            #+#    #+#             */
-/*   Updated: 2025/02/03 22:20:27 by ahusic           ###   ########.fr       */
+/*   Updated: 2025/02/02 14:31:40 by mstefano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char *ft_strjoin_gnl(char *s1, char *s2)
             return (NULL);
         s1[0] = '\0';
     }
-
+    
     str = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
     if (!str)
     {
@@ -63,7 +63,7 @@ char *ft_strjoin_gnl(char *s1, char *s2)
             free(s1);
         return (NULL);
     }
-
+    
     i = -1;
     while (s1[++i])
         str[i] = s1[i];
@@ -71,7 +71,7 @@ char *ft_strjoin_gnl(char *s1, char *s2)
     while (s2[j])
         str[i++] = s2[j++];
     str[i] = '\0';
-
+    
     if (should_free_s1)
         free(s1);
     return (str);
@@ -81,7 +81,7 @@ int file_to_map(int fd, t_data *map, char *line)
 {
     char *tmp;
     char *map_str;
-
+    
     if (!line || ft_strlen(line) <= 1)
         return (0);
     map_str = NULL;
@@ -107,7 +107,7 @@ int file_to_map(int fd, t_data *map, char *line)
             if (tmp)
                 free(tmp);
             return (0);
-        }
+        }   
         map->height++;
         line = get_next_line(fd);
     }
@@ -135,79 +135,31 @@ void	free_2d_array(char **array)
 	free(array);
 }
 
-int save_texture(t_data *data, const char *type, const char *path, char *line)
+int	save_texture(t_data *data, char *id, char *path)
 {
-    t_texture **target_texture = NULL;
-
-    if (!line || !data || !type || !path)
-        return (0);
-
-    // Determine which texture pointer to use
-    if (strncmp(type, "NO", 2) == 0)
-        target_texture = &data->no_texture;
-    else if (strncmp(type, "SO", 2) == 0)
-        target_texture = &data->so_texture;
-    else if (strncmp(type, "WE", 2) == 0)
-        target_texture = &data->we_texture;
-    else if (strncmp(type, "EA", 2) == 0)
-        target_texture = &data->ea_texture;
-    else
-        return (0);
-
-    // Allocate texture structure if it doesn't exist
-    if (*target_texture == NULL)
-    {
-        *target_texture = malloc(sizeof(t_texture));
-        if (!*target_texture)
-            return (0);
-        (*target_texture)->path = NULL;
-        (*target_texture)->texture = NULL;
-    }
-
-    // Load the texture
-    (*target_texture)->texture = mlx_load_png(path);
-    if (!(*target_texture)->texture)
-    {
-        free(*target_texture);
-        *target_texture = NULL;
-        return (0);
-    }
-
-    // Store the path
-    (*target_texture)->path = strdup(path);
-    if (!(*target_texture)->path)
-    {
-        mlx_delete_texture((*target_texture)->texture);
-        free(*target_texture);
-        *target_texture = NULL;
-        return (0);
-    }
-
-    // Store dimensions
-    (*target_texture)->width = (*target_texture)->texture->width;
-    (*target_texture)->height = (*target_texture)->texture->height;
-
-    return (1);
+	if (!ft_strncmp(id, "NO", 2))
+	{
+		if (data->no_texture)
+			return (0);
+		data->no_texture = ft_strdup(path);
+	}
+	else if (!ft_strncmp(id, "SO", 2))
+	{
+		if (data->so_texture)
+			return (0);
+		data->so_texture = ft_strdup(path);
+	}
+	else if (!ft_strncmp(id, "WE", 2))
+	{
+		if (data->we_texture)
+			return (0);
+		data->we_texture = ft_strdup(path);
+	}
+	else if (!ft_strncmp(id, "EA", 2))
+	{
+		if (data->ea_texture)
+			return (0);
+		data->ea_texture = ft_strdup(path);
+	}
+	return (1);
 }
-
-void cleanup_texture(t_texture **texture)
-{
-    if (*texture)
-    {
-        if ((*texture)->path)
-            free((*texture)->path);
-        if ((*texture)->texture)
-            mlx_delete_texture((*texture)->texture);
-        free(*texture);
-        *texture = NULL;
-    }
-}
-
-void cleanup_all_textures(t_data *data)
-{
-    cleanup_texture(&data->no_texture);
-    cleanup_texture(&data->so_texture);
-    cleanup_texture(&data->we_texture);
-    cleanup_texture(&data->ea_texture);
-}
-
