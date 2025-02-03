@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_check.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstefano <mstefano@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahusic <ahusic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 18:29:58 by ahusic            #+#    #+#             */
-/*   Updated: 2025/02/02 14:42:40 by mstefano         ###   ########.fr       */
+/*   Updated: 2025/02/03 19:59:45 by ahusic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,11 @@ int map_check(t_data *data)
         while (data->map[i][line_len] && data->map[i][line_len] != '\n')
             line_len++;
         if (line_len != width)
-            return (printf("Error\nMap lines have different lengths (%d != %d at line %d)\n", 
+            return (printf("Error\nMap lines have different lengths (%d != %d at line %d)\n",
                          line_len, width, i), 0);
         j = 0;
         while (j < width)
-        {   
+        {
             if (data->map[i][j] != '1' && data->map[i][j] != ' ')
             {
                 if (i == 0 || i == data->height - 1 || j == 0 || j == width - 1)
@@ -115,9 +115,13 @@ int	save_position(t_data *data, int x, int y)
 
 int	is_map_complete(t_data *data)
 {
-	if (!data->map || !data->no_texture || !data->so_texture
-		|| !data->we_texture || !data->ea_texture || data->floor_color == -1
-		|| data->ceiling_color == -1 || data->pos_x == -1)
-		return (printf("Error\nIncomplete map data\n"), 0);
-	return (1);
+    if (!data->map ||
+        !data->no_texture->img || !data->so_texture->img ||
+        !data->we_texture->img || !data->ea_texture->img ||
+        data->floor_color == -1 || data->ceiling_color == -1)
+    {
+        printf("Error: Missing textures or invalid map\n");
+        return (0);
+    }
+    return (1);
 }

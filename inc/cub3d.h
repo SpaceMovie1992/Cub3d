@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstefano <mstefano@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahusic <ahusic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 21:12:53 by ahusic            #+#    #+#             */
-/*   Updated: 2025/02/02 14:46:31 by mstefano         ###   ########.fr       */
+/*   Updated: 2025/02/03 22:22:26 by ahusic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int		check_newline(char *str);
 char	*ft_strjoin_gnl(char *s1, char *s2);
 int		file_to_map(int fd, t_data *map, char *line);
 void	free_2d_array(char **array);
-int		save_texture(t_data *data, char *id, char *path);
+int		save_texture(t_data *data, const char *type, const char *path, char *line);
 
 // Utils
 int		convert_rgb(int r, int g, int b, int a);
@@ -53,7 +53,7 @@ int		is_map_complete(t_data *data);
 
 // Parsing
 int		map_parse(int fd, t_data *data, char *line);
-int		texture_parse(char *content, t_data *data);
+int		texture_parse(char *content, t_data *data, int fd);
 int		color_parse(char *content, t_data *data, char type);
 int		save_content(char *content, t_data *data, int fd);
 
@@ -72,6 +72,12 @@ void	draw_scene_wrapper(void *param);
 void	handle_keypress(void *param);
 void 	render_frame(void *param);
 void 	draw_scene(t_data *data, mlx_image_t *img);
+void 	render_walls(t_data *data);
+void	handle_input(t_data *data);
 
+// Textures
+void		load_textures(t_data *data);
+uint32_t	get_texture_pixel(t_texture *texture, int x, int y);
+void		cleanup_all_textures(t_data *data);
 // void 	handle_keypress(mlx_key_data_t keydata, void *param);
 #endif

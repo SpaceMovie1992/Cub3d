@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_structs.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstefano <mstefano@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahusic <ahusic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 20:09:48 by ahusic            #+#    #+#             */
-/*   Updated: 2025/02/01 20:28:47 by mstefano         ###   ########.fr       */
+/*   Updated: 2025/02/03 22:10:31 by ahusic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,33 +45,42 @@ typedef struct s_ray
 	double	hit_y;
 }	t_ray;
 
+typedef struct s_texture
+{
+	mlx_texture_t	*img;
+	int			width;
+	int			height;
+	char		*path;
+	mlx_texture_t *texture;
+}	t_texture;
 typedef struct s_data
 {
-	mlx_image_t	*img;
-	char		**map;
-	char		*no_texture;
-	char		*so_texture;
-	char		*we_texture;
-	char		*ea_texture;
-	char		*path;
-	char		player_dir;
-	int			fd;
-	int			height;
-	int			width;
-	int			floor_color;
-	int			ceiling_color;
-	int			pos_x;
-	int			pos_y;
-	mlx_t		*mlx;
-	t_player	player;
-	double		dir_x;
-	double		dir_y;
-	double		plane_x;
-	double		plane_y;
+	mlx_image_t		*img;
+	char			**map;
+	t_texture		*no_texture;
+	t_texture		*so_texture;
+	t_texture		*we_texture;
+	t_texture		*ea_texture;
+	char			*path;
+	char			player_dir;
+	int				fd;
+	int				height;
+	int				width;
+	int				floor_color;
+	int				ceiling_color;
+	int				pos_x;
+	int				pos_y;
+	void			*mlx;
+	t_player		player;
+	double			dir_x;
+	double			dir_y;
+	double			plane_x;
+	double			plane_y;
 }	t_data;
 
 typedef struct s_draw_params {
     t_data      *data;
     mlx_image_t *img;
 } t_draw_params;
+
 #endif

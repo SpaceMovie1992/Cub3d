@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstefano <mstefano@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahusic <ahusic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 21:27:27 by mstefano          #+#    #+#             */
-/*   Updated: 2025/02/02 14:17:12 by mstefano         ###   ########.fr       */
+/*   Updated: 2025/02/03 22:22:01 by ahusic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	handle_input(t_data *data)
 	double rot_speed;
 	double newX;
 	double newY;
-	
+
     if (!data || !data->mlx)
         return ;
     if (mlx_is_key_down(data->mlx, MLX_KEY_ESCAPE))
@@ -90,10 +90,8 @@ void render_walls(t_data *data)
         double delta_dist_y = fabs(1 / ray_dir_y);
         int map_x = (int)(data->player.player_x / TILE_SIZE);
         int map_y = (int)(data->player.player_y / TILE_SIZE);
-        double side_dist_x;
-        double side_dist_y;
-        int step_x;
-        int step_y;
+        double side_dist_x, side_dist_y;
+        int step_x, step_y, hit = 0, side;
 
         if (ray_dir_x < 0)
         {
@@ -115,9 +113,7 @@ void render_walls(t_data *data)
             step_y = 1;
             side_dist_y = (map_y + 1.0 - data->player.player_y / TILE_SIZE) * delta_dist_y;
         }
-        int hit = 0;
-        int side;
-        while (hit == 0)
+        while (!hit)
         {
             if (side_dist_x < side_dist_y)
             {
@@ -131,29 +127,33 @@ void render_walls(t_data *data)
                 map_y += step_y;
                 side = 1;
             }
-
-            if (map_x < 0 || map_y < 0 || map_x >= data->width || map_y >= data->height)
-                break;
             if (data->map[map_y][map_x] == '1')
                 hit = 1;
         }
-        if (hit)
+        double wall_dist = (side == 0)
+            ? (map_x - data->player.player_x / TILE_SIZE + (1 - step_x) / 2) / ray_dir_x
+            : (map_y - data->player.player_y / TILE_SIZE + (1 - step_y) / 2) / ray_dir_y;
+        int line_height = (int)(SCREEN_HEIGHT / wall_dist);
+        int draw_start = -line_height / 2 + SCREEN_HEIGHT / 2;
+        int draw_end = line_height / 2 + SCREEN_HEIGHT / 2;
+
+        double wall_x = (side == 0) ? (data->player.player_y + wall_dist * ray_dir_y)
+                                    : (data->player.player_x + wall_dist * ray_dir_x);
+        wall_x -= floor(wall_x);
+
+		t_texture *texture;
+		if (side == 0)
+    		texture = *((ray_dir_x > 0) ? &data->ea_texture : &data->we_texture);
+		else
+    		texture = *((ray_dir_y > 0) ? &data->so_texture : &data->no_texture);
+
+        int tex_x = (int)(wall_x * (double)(texture->width));
+
+        for (int y = draw_start; y < draw_end; y++)
         {
-            double wall_dist;
-            if (side == 0)
-                wall_dist = (map_x - data->player.player_x / TILE_SIZE + 
-                          (1 - step_x) / 2) / ray_dir_x;
-            else
-                wall_dist = (map_y - data->player.player_y / TILE_SIZE + 
-                          (1 - step_y) / 2) / ray_dir_y;
-            int line_height = (int)(SCREEN_HEIGHT / wall_dist);
-            int draw_start = -line_height / 2 + SCREEN_HEIGHT / 2;
-            if (draw_start < 0) draw_start = 0;
-            int draw_end = line_height / 2 + SCREEN_HEIGHT / 2;
-            if (draw_end >= SCREEN_HEIGHT) draw_end = SCREEN_HEIGHT - 1;
-            uint32_t color = (side == 1) ? 0xFF0000FF : 0xCC0000FF;
-            for (int y = draw_start; y < draw_end; y++)
-                mlx_put_pixel(data->img, x, y, color);
+            int tex_y = ((y - draw_start) * texture->height) / line_height;
+            uint32_t color = get_texture_pixel(texture, tex_x, tex_y);
+            mlx_put_pixel(data->img, x, y, color);
         }
     }
 }
@@ -164,7 +164,7 @@ void	game_loop(void *param)
 	int			x;
 	int			y;
 	uint32_t	color;
-	
+
 	data = (t_data *)param;
     if (!data || !data->mlx || !data->img)
         return;
@@ -190,15 +190,30 @@ int main(int argc, char **argv)
     mlx_image_t *img;
     int         fd;
 
+	// Debugging: Check arguments
+    printf("Arguments count: %d\n", argc);
+    if (argc != 2 || !check_file_extension(argv[1]))
+    {
+        printf("Error: Invalid arguments or file extension\n");
+        return (1);
+    }
+
     if (argc != 2 || !check_file_extension(argv[1]))
         return (printf("Error\nInvalid arguments\n"), 1);
+	printf("Initializing data\n");
     init_data(&data);
     data.mlx = mlx_init(SCREEN_WIDTH, SCREEN_HEIGHT, "cub3D", true);
     if (!data.mlx)
         return (printf("Error\nFailed to initialize MLX\n"), 1);
+    printf("Opening file: %s\n", argv[1]);
     fd = open(argv[1], O_RDONLY);
     if (fd < 0 || !save_content(get_next_line(fd), &data, fd))
-        return (printf("Error\nFailed to parse map\n"), 1);
+	{
+		cleanup_all_textures(&data);
+		if(!data.map)
+			mlx_terminate(data.mlx);
+    	return (printf("Failed to parse map\n"), 1);
+	}
     init_player(&data);
     img = mlx_new_image(data.mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
     if (!img)
