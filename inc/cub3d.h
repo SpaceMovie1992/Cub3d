@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahusic <ahusic@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mstefano <mstefano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 21:12:53 by ahusic            #+#    #+#             */
-/*   Updated: 2025/02/03 23:29:24 by ahusic           ###   ########.fr       */
+/*   Updated: 2025/02/03 23:35:42 by mstefano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int		save_content(char *content, t_data *data, int fd);
 // Raycasting
 
 t_ray	cast_ray(t_data *data, t_player *player, double ray_angle);
-// void	draw_scene(t_data *data, t_player *player, mlx_image_t *img);
+void 	draw_scene(t_data *data, mlx_image_t *img);
 void	key_hook(void *param);
 void	init_player(t_data *data);
 
@@ -71,6 +71,5 @@ void	game_loop(void *param);
 void	draw_scene_wrapper(void *param);
 void	handle_keypress(void *param);
 void 	render_frame(void *param);
-void 	draw_scene(t_data *data, mlx_image_t *img);
 
 #endif

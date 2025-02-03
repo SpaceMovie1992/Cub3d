@@ -6,7 +6,7 @@
 /*   By: mstefano <mstefano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 21:27:27 by mstefano          #+#    #+#             */
-/*   Updated: 2025/02/03 20:31:22 by mstefano         ###   ########.fr       */
+/*   Updated: 2025/02/03 23:37:30 by mstefano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,15 +78,25 @@ void draw_minimap(t_data *data)
 
 void	handle_input(t_data *data)
 {
-	double move_speed;
-	double rot_speed;
-	double newX;
-	double newY;
+	double		move_speed;
+	double		rot_speed;
+	double		newX;
+	double		newY;
+	static bool	minimap_toggle = true;
+    static int	cooldown = 0;
 	
     if (!data || !data->mlx)
         return ;
     if (mlx_is_key_down(data->mlx, MLX_KEY_ESCAPE))
         mlx_close_window(data->mlx);
+	if (mlx_is_key_down(data->mlx, MLX_KEY_M) && cooldown == 0)
+    {
+        minimap_toggle = !minimap_toggle;
+        data->minimap.is_visible = minimap_toggle;
+        cooldown = 20;
+    }
+    if (cooldown > 0)
+        cooldown--;
     move_speed = PLAYER_SPEED;
     rot_speed = ROTATION_SPEED;
     if (mlx_is_key_down(data->mlx, MLX_KEY_W))
@@ -246,7 +256,8 @@ void	game_loop(void *param)
 		y++;
     }
     render_walls(data);
-	draw_minimap(data);
+	if (data->minimap.is_visible)
+		draw_minimap(data);
 }
 
 int main(int argc, char **argv)
