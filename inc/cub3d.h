@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstefano <mstefano@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahusic <ahusic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 21:12:53 by ahusic            #+#    #+#             */
-/*   Updated: 2025/02/02 14:46:31 by mstefano         ###   ########.fr       */
+/*   Updated: 2025/02/03 23:29:24 by ahusic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,5 +73,4 @@ void	handle_keypress(void *param);
 void 	render_frame(void *param);
 void 	draw_scene(t_data *data, mlx_image_t *img);
 
-// void 	handle_keypress(mlx_key_data_t keydata, void *param);
 #endif
