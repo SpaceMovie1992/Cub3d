@@ -6,7 +6,7 @@
 /*   By: mstefano <mstefano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 18:11:19 by ahusic            #+#    #+#             */
-/*   Updated: 2025/02/02 14:46:00 by mstefano         ###   ########.fr       */
+/*   Updated: 2025/02/04 12:20:03 by mstefano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,9 @@ int	check_file_extension(char *filename)
 
 	dot = ft_strrchr(filename, '.');
 	if (dot == NULL)
-	{
-		printf("Error\nNo file extension found\n");
 		return (0);
-	}
 	if (ft_strncmp(dot, ".cub\0", 5) != 0)
-	{
-		printf("Error\n Invalid file extension\n");
 		return (0);
-	}
 	return (1);
 }
 

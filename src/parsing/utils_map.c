@@ -6,7 +6,7 @@
 /*   By: mstefano <mstefano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 18:45:29 by ahusic            #+#    #+#             */
-/*   Updated: 2025/02/02 14:31:40 by mstefano         ###   ########.fr       */
+/*   Updated: 2025/02/04 14:55:32 by mstefano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	check_newline(char *str)
 		if (str[i] == '\n')
 		{
 			if (in_map_section && nl_count > 0)
-				return (printf("Error\nInvalid map/map info\n"), 0);
+				return (0);
 			nl_count++;
 		}
 		else
@@ -135,31 +135,37 @@ void	free_2d_array(char **array)
 	free(array);
 }
 
-int	save_texture(t_data *data, char *id, char *path)
+int save_texture(t_data *data, char *id, char *path)
 {
-	if (!ft_strncmp(id, "NO", 2))
-	{
-		if (data->no_texture)
-			return (0);
-		data->no_texture = ft_strdup(path);
-	}
-	else if (!ft_strncmp(id, "SO", 2))
-	{
-		if (data->so_texture)
-			return (0);
-		data->so_texture = ft_strdup(path);
-	}
-	else if (!ft_strncmp(id, "WE", 2))
-	{
-		if (data->we_texture)
-			return (0);
-		data->we_texture = ft_strdup(path);
-	}
-	else if (!ft_strncmp(id, "EA", 2))
-	{
-		if (data->ea_texture)
-			return (0);
-		data->ea_texture = ft_strdup(path);
-	}
-	return (1);
+    char *temp;
+
+    if (!ft_strncmp(id, "NO", 2))
+    {
+        temp = ft_strdup(path);
+        if (!temp)
+            return (0);
+        data->no_texture_path = temp;
+    }
+    else if (!ft_strncmp(id, "SO", 2))
+    {
+        temp = ft_strdup(path);
+        if (!temp)
+            return (0);
+        data->so_texture_path = temp;
+    }
+    else if (!ft_strncmp(id, "WE", 2))
+    {
+        temp = ft_strdup(path);
+        if (!temp)
+            return (0);
+        data->we_texture_path = temp;
+    }
+    else if (!ft_strncmp(id, "EA", 2))
+    {
+        temp = ft_strdup(path);
+        if (!temp)
+            return (0);
+        data->ea_texture_path = temp;
+    }
+    return (1);
 }
