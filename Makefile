@@ -13,7 +13,14 @@ SRCS = src/main.c src/parsing/checks.c \
 				src/parsing/parsing.c \
 				src/parsing/utils_map.c \
 				src/parsing/utils.c \
-				src/raycasting/raycasting.c
+				src/raycasting/raycasting.c \
+				src/raycasting/keyshandling.c \
+				src/raycasting/drawing.c \
+				src/init.c \
+				src/movement.c \
+				src/minimap.c \
+				src/wallrender.c \
+				src/utils.c
 OBJS = $(SRCS:%.c=$(BINDIR)/%.o)
 
 all: $(NAME)
