@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_structs.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstefano <mstefano@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahusic <ahusic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 20:09:48 by ahusic            #+#    #+#             */
-/*   Updated: 2025/02/05 15:32:19 by mstefano         ###   ########.fr       */
+/*   Updated: 2025/02/06 18:00:01 by ahusic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,89 +36,91 @@
 
 typedef struct s_player
 {
-	double	player_x;
-	double	player_y;
-	double	angle;
-	float	fov;
-	int		rotation;
-	int		l_r;
-	int		u_d;
-	double	prev_x;
-	double	prev_y;
-}	t_player;
+	double			player_x;
+	double			player_y;
+	double			angle;
+	float			fov;
+	int				rotation;
+	int				l_r;
+	int				u_d;
+	double			prev_x;
+	double			prev_y;
+}					t_player;
 
 typedef struct s_ray
 {
-	double	angle;
-	double	distance;
-	int		wall_hit;
-	double	hit_x;
-	double	hit_y;
-	double  dir_x;
-    double  dir_y;
-    int     map_x;
-    int     map_y;
-    double  delta_dist_x;
-    double  delta_dist_y;
-    double  side_dist_x;
-    double  side_dist_y;
-    int     step_x;
-    int     step_y;
-}	t_ray;
+	double			angle;
+	double			distance;
+	int				wall_hit;
+	double			hit_x;
+	double			hit_y;
+	double			dir_x;
+	double			dir_y;
+	int				map_x;
+	int				map_y;
+	double			delta_dist_x;
+	double			delta_dist_y;
+	double			side_dist_x;
+	double			side_dist_y;
+	int				step_x;
+	int				step_y;
+}					t_ray;
 
 typedef struct s_minimap
 {
-	int			size;
-	int			pos_x;
-	int			pos_y;
-	int			width;
-	int			height;
-	mlx_image_t	*img;
-	bool	is_visible;
-}   t_minimap;
+	int				size;
+	int				pos_x;
+	int				pos_y;
+	int				width;
+	int				height;
+	mlx_image_t		*img;
+	bool			is_visible;
+}					t_minimap;
 
 typedef struct s_data
 {
-	mlx_image_t	*img;
-	char		**map;
+	mlx_image_t		*img;
+	char			**map;
 	mlx_texture_t	*no_texture;
 	mlx_texture_t	*so_texture;
 	mlx_texture_t	*we_texture;
 	mlx_texture_t	*ea_texture;
-	char		*no_texture_path;
-	char		*so_texture_path;
-	char		*we_texture_path;
-	char		*ea_texture_path;
-	char		*path;
-	char		player_dir;
-	int			fd;
-	int			height;
-	int			width;
-	int			floor_color;
-	int			ceiling_color;
-	int			pos_x;
-	int			pos_y;
-	mlx_t		*mlx;
-	t_player	player;
-	double		dir_x;
-	double		dir_y;
-	double		plane_x;
-	double		plane_y;
-	void		*win;
-	t_minimap	minimap;
-}	t_data;
+	char			*no_texture_path;
+	char			*so_texture_path;
+	char			*we_texture_path;
+	char			*ea_texture_path;
+	char			*path;
+	char			player_dir;
+	int				fd;
+	int				height;
+	int				width;
+	int				fc;
+	int				cc;
+	int				pos_x;
+	int				pos_y;
+	mlx_t			*mlx;
+	t_player		player;
+	double			dir_x;
+	double			dir_y;
+	double			plane_x;
+	double			plane_y;
+	void			*win;
+	t_minimap		minimap;
+}					t_data;
 
 typedef struct s_draw_params
 {
-    t_data		*data;
-    mlx_image_t	*img;
-}	t_draw_params;
+	t_data			*data;
+	mlx_image_t		*img;
+}					t_draw_params;
 typedef struct s_wall
 {
-    int         height;
-    int         draw_start;
-    int         draw_end;
-    uint32_t    color;
-}   t_wall;
+	int				height;
+	int				draw_start;
+	int				draw_end;
+	uint32_t		color;
+	int				x;
+	double			shade;
+}					t_wall;
 
 #endif

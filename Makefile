@@ -16,11 +16,15 @@ SRCS = src/main.c src/parsing/checks.c \
 				src/raycasting/raycasting.c \
 				src/raycasting/keyshandling.c \
 				src/raycasting/drawing.c \
-				src/init.c \
-				src/movement.c \
-				src/minimap.c \
-				src/wallrender.c \
-				src/utils.c
+				src/init/init.c \
+				src/execution/movement.c \
+				src/execution/minimap.c \
+				src/execution/wallrender.c \
+				src/execution/input_handler.c \
+				src/execution/texture.c \
+				src/rests/utils.c \
+				src/rests/utils1.c \
+				src/rests/utils2.c 
 OBJS = $(SRCS:%.c=$(BINDIR)/%.o)
 
 all: $(NAME)
