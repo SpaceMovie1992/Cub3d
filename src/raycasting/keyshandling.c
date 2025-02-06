@@ -6,11 +6,29 @@
 /*   By: ahusic <ahusic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 15:34:40 by mstefano          #+#    #+#             */
-/*   Updated: 2025/02/06 18:03:38 by ahusic           ###   ########.fr       */
+/*   Updated: 2025/02/06 22:06:07 by ahusic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
+
+void	set_wall_color(t_ray *ray, t_wall *wall, int side)
+{
+	if (side == 0)
+	{
+		if (ray->dir_x > 0)
+			wall->color = 0xFF0000FF;
+		else
+			wall->color = 0xCC0000FF;
+	}
+	else
+	{
+		if (ray->dir_y > 0)
+			wall->color = 0x0000FFFF;
+		else
+			wall->color = 0x0000CCFF;
+	}
+}
 
 static void	handle_movement(t_data *data, double new_x, double new_y)
 {

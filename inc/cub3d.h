@@ -6,7 +6,7 @@
 /*   By: ahusic <ahusic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 21:12:53 by ahusic            #+#    #+#             */
-/*   Updated: 2025/02/06 18:01:10 by ahusic           ###   ########.fr       */
+/*   Updated: 2025/02/06 22:20:14 by ahusic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,5 +97,12 @@ void			draw_textured_line(t_data *data, t_wall *wall, t_ray *ray,
 bool			load_textures(t_data *data);
 mlx_texture_t	*scale_texture(mlx_texture_t *texture, int new_width,
 					int new_height);
+char			*join_strings(char *s1, char *s2, int should_free_s1);
+int				line_process(char **map_str, char *line, t_data *map);
+int				set_texture_path(char **texture_path, char *path);
+void			set_wall_color(t_ray *ray, t_wall *wall, int side);
+void			copy_pixel(uint8_t *dst, uint8_t *src);
+void			scale_pixels(mlx_texture_t *scaled, mlx_texture_t *texture,
+					int new_width, int new_height);
 
 #endif

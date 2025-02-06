@@ -6,7 +6,7 @@
 /*   By: ahusic <ahusic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 15:42:00 by mstefano          #+#    #+#             */
-/*   Updated: 2025/02/06 18:03:25 by ahusic           ###   ########.fr       */
+/*   Updated: 2025/02/06 22:06:47 by ahusic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,20 +97,7 @@ static void	calc_wall_props(t_ray *ray, t_wall *wall, int side)
 	wall->draw_end = wall->height / 2 + SCREEN_HEIGHT / 2;
 	if (wall->draw_end >= SCREEN_HEIGHT)
 		wall->draw_end = SCREEN_HEIGHT - 1;
-	if (side == 0)
-	{
-		if (ray->dir_x > 0)
-			wall->color = 0xFF0000FF;
-		else
-			wall->color = 0xCC0000FF;
-	}
-	else
-	{
-		if (ray->dir_y > 0)
-			wall->color = 0x0000FFFF;
-		else
-			wall->color = 0x0000CCFF;
-	}
+	set_wall_color(ray, wall, side);
 }
 
 void	draw_scene(t_data *data, mlx_image_t *img)

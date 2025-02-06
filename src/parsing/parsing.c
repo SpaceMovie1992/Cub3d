@@ -6,7 +6,7 @@
 /*   By: ahusic <ahusic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 21:58:18 by ahusic            #+#    #+#             */
-/*   Updated: 2025/02/06 18:00:12 by ahusic           ###   ########.fr       */
+/*   Updated: 2025/02/06 21:45:35 by ahusic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,46 +69,6 @@ int	color_parse(char *content, t_data *data, char type)
 	else
 		data->cc = (rgb[0] << 24) | (rgb[1] << 16) | (rgb[2] << 8) | 0xFF;
 	free_2d_array(colors);
-	return (1);
-}
-
-int	save_content(char *content, t_data *data, int fd)
-{
-	while (content)
-	{
-		if (ft_strlen(content) <= 1 || content[0] == '#' || content[0] == '\n')
-		{
-			free(content);
-			content = get_next_line(fd);
-			continue ;
-		}
-		if (!ft_strncmp(content, "NO ", 3) || !ft_strncmp(content, "SO ", 3)
-			|| !ft_strncmp(content, "WE ", 3) || !ft_strncmp(content, "EA ", 3))
-		{
-			if (!texture_parse(content, data))
-				return (free(content), 0);
-		}
-		else if (*content == 'F')
-		{
-			if (!color_parse(content + 2, data, 'f'))
-				return (free(content), 0);
-		}
-		else if (*content == 'C')
-		{
-			if (!color_parse(content + 2, data, 'c'))
-				return (free(content), 0);
-		}
-		else if (content[0] == '1' || content[0] == ' ')
-		{
-			if (!map_parse(fd, data, content))
-				return (0);
-			break ;
-		}
-		else
-			return (free(content), 0);
-		free(content);
-		content = get_next_line(fd);
-	}
 	return (1);
 }
 

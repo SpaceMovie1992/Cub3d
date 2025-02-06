@@ -13,6 +13,7 @@ SRCS = src/main.c src/parsing/checks.c \
 				src/parsing/parsing.c \
 				src/parsing/utils_map.c \
 				src/parsing/utils.c \
+				src/parsing/utils_parse.c \
 				src/raycasting/raycasting.c \
 				src/raycasting/keyshandling.c \
 				src/raycasting/drawing.c \
