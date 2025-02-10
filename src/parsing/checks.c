@@ -6,7 +6,7 @@
 /*   By: ahusic <ahusic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 18:11:19 by ahusic            #+#    #+#             */
-/*   Updated: 2025/02/06 19:13:47 by ahusic           ###   ########.fr       */
+/*   Updated: 2025/02/10 22:20:01 by ahusic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,8 @@ int	check_file_extension(char *filename)
 	char	*dot;
 
 	dot = ft_strrchr(filename, '.');
-	if (dot == NULL)
-		return (0);
-	if (ft_strncmp(dot, ".cub\0", 5) != 0)
-		return (0);
+	if (dot == NULL || ft_strncmp(dot, ".cub\0", 5) != 0)
+		return (printf("Error\nInvalid file extension\n"), 0);
 	return (1);
 }
 
@@ -53,24 +51,6 @@ int	check_color(char **rgb)
 	return (1);
 }
 
-int	check_width(char **map, int width)
-{
-	int	i;
-	int	len;
-
-	i = 0;
-	while (map[i])
-	{
-		len = 0;
-		while (map[i][len] && map[i][len] != '\n')
-			len++;
-		if (len != width)
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
 int	char_position_check(t_data *data)
 {
 	int	i;
@@ -87,11 +67,12 @@ int	char_position_check(t_data *data)
 		j = -1;
 		while (data->map[i][++j])
 		{
-			if (!ft_strchr("012NSEW ", data->map[i][j]))
-				return (0);
-			if (ft_strchr("NSWE", data->map[i][j]) && !set_player_pos(data, i,
-					j))
-				return (0);
+			if (!ft_strchr("01NSEW ", data->map[i][j]))
+				return (printf("Error\nInvalid character in map\n"), 0);
+			if (ft_strchr("NSWE", data->map[i][j])
+				&& ((data->pos_x != -1 || data->pos_y != -1)
+					|| !set_player_pos(data, i, j)))
+				return (printf("Error\nMultiple player positions in map\n"), 0);
 		}
 	}
 	return (data->pos_x != -1 && data->pos_y != -1);

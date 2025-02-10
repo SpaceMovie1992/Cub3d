@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstefano <mstefano@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahusic <ahusic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 21:12:53 by ahusic            #+#    #+#             */
-/*   Updated: 2025/02/10 17:50:34 by mstefano         ###   ########.fr       */
+/*   Updated: 2025/02/10 22:20:13 by ahusic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void			draw_scene(t_data *data, mlx_image_t *img);
 void			key_hook(void *param);
 void			init_player(t_data *data);
 
-// TESTINGWTFFISGOINGONNN
+// Minimap and other
 
 void			draw_minimap(t_data *data);
 void			init_data(t_data *data);
@@ -75,7 +75,6 @@ void			render_frame(void *param);
 void			render_walls(t_data *data);
 void			init_ray(t_data *data, int x, t_ray *ray);
 int				set_player_pos(t_data *data, int i, int j);
-int				check_width(char **map, int width);
 void			cleanup_textures(t_data *data);
 void			draw_square(t_data *data, t_pos pos, int size, uint32_t color);
 int				is_valid_pos(t_data *data, int map_x, int map_y);

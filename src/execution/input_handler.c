@@ -6,7 +6,7 @@
 /*   By: ahusic <ahusic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 17:17:44 by ahusic            #+#    #+#             */
-/*   Updated: 2025/02/06 17:57:17 by ahusic           ###   ########.fr       */
+/*   Updated: 2025/02/10 22:19:22 by ahusic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	handle_minimap(t_data *data, int *cooldown, bool *minimap_toggle)
 	{
 		*minimap_toggle = !(*minimap_toggle);
 		data->minimap.is_visible = *minimap_toggle;
-		*cooldown = 20;
+		*cooldown = 10;
 	}
 	if (*cooldown > 0)
 		(*cooldown)--;
@@ -96,7 +96,7 @@ static void	handle_strafe(t_data *data, double move_speed)
 
 void	handle_input(t_data *data)
 {
-	static bool	minimap_toggle = true;
+	static bool	minimap_toggle = false;
 	static int	cooldown = 0;
 	double		move_speed;
 	double		rot_speed;
