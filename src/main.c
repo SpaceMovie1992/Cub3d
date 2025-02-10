@@ -92,10 +92,16 @@ int	main(int argc, char **argv)
 	if (!init_game(&data, argv[1]))
 		return (1);
 	if (!setup_window(&data))
+	{
+		cleanup_texture_paths(&data);
+		cleanup_map(&data);
 		return (1);
+	}
 	mlx_loop_hook(data.mlx, game_loop, &data);
 	mlx_loop(data.mlx);
 	cleanup_textures(&data);
+	cleanup_texture_paths(&data);
+	cleanup_map(&data);
 	mlx_delete_image(data.mlx, data.img);
 	mlx_terminate(data.mlx);
 	return (0);

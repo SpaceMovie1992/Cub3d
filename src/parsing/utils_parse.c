@@ -64,31 +64,30 @@ int	save_content(char *content, t_data *data, int fd)
 	return (1);
 }
 
-char	*join_strings(char *s1, char *s2, int should_free_s1)
+char *join_strings(char *s1, char *s2, int should_free_s1)
 {
-	char	*str;
-	size_t	i;
-	size_t	j;
+    char    *str;
+    size_t  i;
+    size_t  j;
 
-	str = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
-	if (!str)
-	{
-		if (!should_free_s1)
-			free(s1);
-		return (NULL);
-	}
-	i = -1;
-	while (s1[++i])
-		str[i] = s1[i];
-	j = 0;
-	while (s2[j])
-		str[i++] = s2[j++];
-	str[i] = '\0';
-	if (should_free_s1)
-		free(s1);
-	return (str);
+    str = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+    if (!str)
+    {
+        if (should_free_s1)
+            free(s1);
+        return (NULL);
+    }
+    i = -1;
+    while (s1[++i])
+        str[i] = s1[i];
+    j = 0;
+    while (s2[j])
+        str[i++] = s2[j++];
+    str[i] = '\0';
+    if (should_free_s1)
+        free(s1);
+    return (str);
 }
-
 int	line_process(char **map_str, char *line, t_data *map)
 {
 	char	*tmp;
@@ -117,13 +116,15 @@ int	line_process(char **map_str, char *line, t_data *map)
 	return (1);
 }
 
-int	set_texture_path(char **texture_path, char *path)
+int set_texture_path(char **texture_path, char *path)
 {
-	char	*temp;
+    char *temp;
 
-	temp = ft_strdup(path);
-	if (!temp)
-		return (0);
-	*texture_path = temp;
-	return (1);
+    if (*texture_path)
+        free(*texture_path);
+    temp = ft_strdup(path);
+    if (!temp)
+        return (0);
+    *texture_path = temp;
+    return (1);
 }

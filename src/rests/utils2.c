@@ -62,3 +62,36 @@ void	scale_pixels(mlx_texture_t *scaled, mlx_texture_t *texture,
 		y++;
 	}
 }
+
+void cleanup_map(t_data *data)
+{
+    int i;
+
+    if (data->map)
+    {
+        i = 0;
+        while (data->map[i])
+        {
+            free(data->map[i]);
+            i++;
+        }
+        free(data->map);
+        data->map = NULL;
+    }
+}
+
+void cleanup_texture_paths(t_data *data)
+{
+    if (data->no_texture_path)
+        free(data->no_texture_path);
+    if (data->so_texture_path)
+        free(data->so_texture_path);
+    if (data->we_texture_path)
+        free(data->we_texture_path);
+    if (data->ea_texture_path)
+        free(data->ea_texture_path);
+    data->no_texture_path = NULL;
+    data->so_texture_path = NULL;
+    data->we_texture_path = NULL;
+    data->ea_texture_path = NULL;
+}

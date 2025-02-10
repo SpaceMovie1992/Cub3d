@@ -104,4 +104,6 @@ void			scale_pixels(mlx_texture_t *scaled, mlx_texture_t *texture,
 					int new_width, int new_height);
 int				init_game(t_data *data, char *map_path);
 
+void			cleanup_map(t_data *data);
+void			cleanup_texture_paths(t_data *data);
 #endif

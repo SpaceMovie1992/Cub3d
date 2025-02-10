@@ -85,16 +85,28 @@ int	init_game(t_data *data, char *map_path)
 	if (!save_content(get_next_line(fd), data, fd))
 	{
 		close(fd);
+		cleanup_texture_paths(data);
+		cleanup_map(data);
 		return (0);
 	}
 	close(fd);
 	if (!char_position_check(data))
+	{
+		cleanup_texture_paths(data);
+		cleanup_map(data);
 		return (0);
+	}
 	data->mlx = mlx_init(SCREEN_WIDTH, SCREEN_HEIGHT, "cub3D", true);
 	if (!data->mlx)
+	{
+		cleanup_texture_paths(data);
+		cleanup_map(data);
 		return (printf("Error\nFailed to initialize MLX\n"), 0);
+	}
 	if (!load_textures(data))
 	{
+		cleanup_texture_paths(data);
+		cleanup_map(data);
 		mlx_terminate(data->mlx);
 		return (0);
 	}

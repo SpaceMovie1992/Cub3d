@@ -1,6 +1,6 @@
 NAME = cub3D
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g -I./inc
+CFLAGS = -Wall -Wextra -Werror -g -I./inc -fsanitize=leak -fno-omit-frame-pointer
 MLXFLAGS = -lm -lglfw -lpthread -lstdc++
 
 LIB = ./libraries/libraries.a

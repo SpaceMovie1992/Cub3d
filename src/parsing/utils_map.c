@@ -41,19 +41,21 @@ int	check_newline(char *str)
 	return (1);
 }
 
-char	*ft_strjoin_gnl(char *s1, char *s2)
+char *ft_strjoin_gnl(char *s1, char *s2)
 {
-	int		should_free_s1;
+    int     should_free_s1;
+    char    *empty_str;
 
-	should_free_s1 = (s1 != NULL);
-	if (!s1)
-	{
-		s1 = malloc(sizeof(char) * 1);
-		if (!s1)
-			return (NULL);
-		s1[0] = '\0';
-	}
-	return (join_strings(s1, s2, should_free_s1));
+    should_free_s1 = (s1 != NULL);
+    if (!s1)
+    {
+        empty_str = malloc(sizeof(char) * 1);
+        if (!empty_str)
+            return (NULL);
+        empty_str[0] = '\0';
+        return (join_strings(empty_str, s2, 1));
+    }
+    return (join_strings(s1, s2, should_free_s1));
 }
 
 int	file_to_map(int fd, t_data *map, char *line)
