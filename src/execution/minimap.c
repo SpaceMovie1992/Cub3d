@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahusic <ahusic@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mstefano <mstefano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 15:08:38 by mstefano          #+#    #+#             */
-/*   Updated: 2025/02/06 17:57:22 by ahusic           ###   ########.fr       */
+/*   Updated: 2025/02/10 17:51:06 by mstefano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,9 @@ static uint32_t	get_tile_color(char tile)
 static void	draw_map_tiles(t_data *data, int map_pos_x, int map_pos_y,
 		int square_size)
 {
-	int	x;
-	int	y;
-	int	screen_x;
-	int	screen_y;
+	int		x;
+	int		y;
+	t_pos	pos;
 
 	y = 0;
 	while (y < data->height)
@@ -58,9 +57,9 @@ static void	draw_map_tiles(t_data *data, int map_pos_x, int map_pos_y,
 		x = 0;
 		while (x < data->width)
 		{
-			screen_x = map_pos_x + (x * square_size);
-			screen_y = map_pos_y + (y * square_size);
-			draw_square(data, screen_x, screen_y, square_size - 1,
+			pos.x = map_pos_x + (x * square_size);
+			pos.y = map_pos_y + (y * square_size);
+			draw_square(data, pos, square_size - 1,
 				get_tile_color(data->map[y][x]));
 			x++;
 		}
@@ -87,21 +86,22 @@ static void	draw_player_direction(t_data *data, int player_x, int player_y,
 
 void	draw_minimap(t_data *data)
 {
-	int	square_size;
-	int	map_pos_x;
-	int	map_pos_y;
-	int	player_x;
-	int	player_y;
+	int		square_size;
+	int		map_pos_x;
+	int		map_pos_y;
+	t_pos	player_pos;
 
 	square_size = MINIMAP_TILE_SIZE;
 	map_pos_x = 20;
 	map_pos_y = 20;
 	draw_minimap_background(data, map_pos_x, map_pos_y, square_size);
 	draw_map_tiles(data, map_pos_x, map_pos_y, square_size);
-	player_x = map_pos_x + (int)(data->player.player_x / TILE_SIZE
-			* square_size);
-	player_y = map_pos_y + (int)(data->player.player_y / TILE_SIZE
-			* square_size);
-	draw_square(data, player_x - 2, player_y - 2, 4, 0xFF0000FF);
-	draw_player_direction(data, player_x, player_y, square_size);
+	player_pos.x = map_pos_x + (int)(data->player.player_x / TILE_SIZE
+			* square_size) - 2;
+	player_pos.y = map_pos_y + (int)(data->player.player_y / TILE_SIZE
+			* square_size) - 2;
+	draw_square(data, player_pos, 4, 0xFF0000FF);
+	player_pos.x += 2;
+	player_pos.y += 2;
+	draw_player_direction(data, player_pos.x, player_pos.y, square_size);
 }

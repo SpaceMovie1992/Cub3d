@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahusic <ahusic@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mstefano <mstefano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 21:12:53 by ahusic            #+#    #+#             */
-/*   Updated: 2025/02/06 22:20:14 by ahusic           ###   ########.fr       */
+/*   Updated: 2025/02/10 17:50:34 by mstefano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,7 @@ void			init_ray(t_data *data, int x, t_ray *ray);
 int				set_player_pos(t_data *data, int i, int j);
 int				check_width(char **map, int width);
 void			cleanup_textures(t_data *data);
-void			draw_square(t_data *data, int x, int y, int size,
-					uint32_t color);
+void			draw_square(t_data *data, t_pos pos, int size, uint32_t color);
 int				is_valid_pos(t_data *data, int map_x, int map_y);
 void			handle_rotation(t_data *data);
 
@@ -104,5 +103,6 @@ void			set_wall_color(t_ray *ray, t_wall *wall, int side);
 void			copy_pixel(uint8_t *dst, uint8_t *src);
 void			scale_pixels(mlx_texture_t *scaled, mlx_texture_t *texture,
 					int new_width, int new_height);
+int				init_game(t_data *data, char *map_path);
 
 #endif

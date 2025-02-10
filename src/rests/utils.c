@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahusic <ahusic@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mstefano <mstefano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 20:14:55 by ahusic            #+#    #+#             */
-/*   Updated: 2025/02/06 18:04:05 by ahusic           ###   ########.fr       */
+/*   Updated: 2025/02/10 17:53:32 by mstefano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	cleanup_textures(t_data *data)
 		mlx_delete_texture(data->we_texture);
 }
 
-void	draw_square(t_data *data, int x, int y, int size, uint32_t color)
+void	draw_square(t_data *data, t_pos pos, int size, uint32_t color)
 {
 	int	i;
 	int	j;
@@ -60,7 +60,7 @@ void	draw_square(t_data *data, int x, int y, int size, uint32_t color)
 		j = 0;
 		while (j < size)
 		{
-			mlx_put_pixel(data->img, x + i, y + j, color);
+			mlx_put_pixel(data->img, pos.x + i, pos.y + j, color);
 			j++;
 		}
 		i++;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahusic <ahusic@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mstefano <mstefano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 15:54:49 by mstefano          #+#    #+#             */
-/*   Updated: 2025/02/06 18:01:44 by ahusic           ###   ########.fr       */
+/*   Updated: 2025/02/10 14:55:23 by mstefano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,31 @@ void	init_data(t_data *data)
 	data->fd = -1;
 	data->height = 0;
 	init_data1(data);
+}
+
+int	init_game(t_data *data, char *map_path)
+{
+	int	fd;
+
+	init_data(data);
+	data->mlx = mlx_init(SCREEN_WIDTH, SCREEN_HEIGHT, "cub3D", true);
+	if (!data->mlx)
+		return (printf("Error\nFailed to initialize MLX\n"), 0);
+	fd = open(map_path, O_RDONLY);
+	if (fd < 0)
+		return (printf("Error\nCannot open map file\n"), 0);
+	if (!save_content(get_next_line(fd), data, fd))
+	{
+		close(fd);
+		mlx_terminate(data->mlx);
+		return (0);
+	}
+	close(fd);
+	if (!load_textures(data))
+	{
+		mlx_terminate(data->mlx);
+		return (0);
+	}
+	init_player(data);
+	return (1);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_structs.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahusic <ahusic@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mstefano <mstefano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 20:09:48 by ahusic            #+#    #+#             */
-/*   Updated: 2025/02/06 18:00:01 by ahusic           ###   ########.fr       */
+/*   Updated: 2025/02/10 17:49:45 by mstefano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,5 +122,10 @@ typedef struct s_wall
 	int				x;
 	double			shade;
 }					t_wall;
+typedef struct s_pos
+{
+	int				x;
+	int				y;
+}					t_pos;
 
 #endif
