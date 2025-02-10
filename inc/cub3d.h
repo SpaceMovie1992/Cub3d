@@ -89,7 +89,7 @@ void			calc_wall_height(t_wall *wall, t_ray *ray, t_data *data,
 					int side);
 void			calc_ray_values(t_ray *ray, t_player *player, double ray_angle);
 void			calc_step_y(t_ray *ray, t_player *player);
-void			handle_input(t_data *data);
+void			handle_input(void *param);
 void			draw_textured_line(t_data *data, t_wall *wall, t_ray *ray,
 					int x);
 bool			load_textures(t_data *data);
