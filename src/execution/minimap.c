@@ -12,59 +12,75 @@
 
 #include "../../inc/cub3d.h"
 
-static void	draw_minimap_background(t_data *data, int map_pos_x, int map_pos_y,
-		int square_size)
+static void draw_minimap_background(t_data *data, int map_pos_x, int map_pos_y,
+    int square_size, int max_width)
 {
-	int	i;
-	int	j;
-	int	max_width;
-	int	max_height;
+    t_pos   pos;
+    int     width;
+    int     height;
+	int		i;
+	int		j;
 
-	max_width = data->width * square_size + 5;
-	max_height = data->height * square_size + 5;
-	i = -5;
-	while (i < max_width)
-	{
+    width = max_width * square_size + 10;
+    height = data->height * square_size + 10;
+    i = -5;
+	while (i < width)
+    {
 		j = -5;
-		while (j < max_height)
-		{
-			mlx_put_pixel(data->img, map_pos_x + i, map_pos_y + j, 0x222222FF);
+        while (j < height)
+        {
+            pos.x = map_pos_x + i;
+            pos.y = map_pos_y + j;
+            mlx_put_pixel(data->img, pos.x, pos.y, 0x222222FF);
 			j++;
 		}
 		i++;
-	}
+    }
 }
 
-static uint32_t	get_tile_color(char tile)
+static uint32_t get_tile_color(char tile)
 {
-	if (tile == '1')
-		return (0xFFFFFFFF);
-	else if (tile == '0')
-		return (0x444444FF);
-	return (0x000000FF);
+    if (tile == '1')
+        return (MINIMAP_WALL_COLOR);
+    else if (tile == '0')
+        return (MINIMAP_FLOOR_COLOR);
+    else
+        return (0x000000FF);
 }
 
-static void	draw_map_tiles(t_data *data, int map_pos_x, int map_pos_y,
-		int square_size)
+static void draw_map_tiles(t_data *data, int map_pos_x, int map_pos_y,
+    int square_size)
 {
-	int		x;
-	int		y;
-	t_pos	pos;
+    int     x;
+    int     y;
+    int     screen_x;
+    int     screen_y;
+    t_pos   pos;
 
-	y = 0;
-	while (y < data->height)
-	{
-		x = 0;
-		while (x < data->width)
-		{
-			pos.x = map_pos_x + (x * square_size);
-			pos.y = map_pos_y + (y * square_size);
-			draw_square(data, pos, square_size - 1,
-				get_tile_color(data->map[y][x]));
-			x++;
-		}
-		y++;
-	}
+    y = 0;
+    while (y < data->height)
+    {
+        x = 0;
+        while (x < data->width)
+        {
+            if (!data->map[y] || x >= (int)ft_strlen(data->map[y]))
+            {
+                x++;
+                continue;
+            }
+            screen_x = map_pos_x + (x * square_size);
+            screen_y = map_pos_y + (y * square_size);
+            pos.x = screen_x;
+            pos.y = screen_y;
+            if (data->map[y][x] == ' ' || data->map[y][x] == '\0')
+                draw_square(data, pos, square_size - 1, 0x000000FF);
+            else
+                draw_square(data, pos, square_size - 1,
+                    get_tile_color(data->map[y][x]));
+            x++;
+        }
+        y++;
+    }
 }
 
 static void	draw_player_direction(t_data *data, int player_x, int player_y,
@@ -84,24 +100,33 @@ static void	draw_player_direction(t_data *data, int player_x, int player_y,
 	}
 }
 
-void	draw_minimap(t_data *data)
+void draw_minimap(t_data *data)
 {
-	int		square_size;
-	int		map_pos_x;
-	int		map_pos_y;
-	t_pos	player_pos;
+    int     square_size;
+    int     map_pos_x;
+    int     map_pos_y;
+    t_pos   player_pos;
+    int     max_width;
 
-	square_size = MINIMAP_TILE_SIZE;
-	map_pos_x = 20;
-	map_pos_y = 20;
-	draw_minimap_background(data, map_pos_x, map_pos_y, square_size);
-	draw_map_tiles(data, map_pos_x, map_pos_y, square_size);
-	player_pos.x = map_pos_x + (int)(data->player.player_x / TILE_SIZE
-			* square_size) - 2;
-	player_pos.y = map_pos_y + (int)(data->player.player_y / TILE_SIZE
-			* square_size) - 2;
-	draw_square(data, player_pos, 4, 0xFF0000FF);
-	player_pos.x += 2;
-	player_pos.y += 2;
-	draw_player_direction(data, player_pos.x, player_pos.y, square_size);
+    if (!data->minimap.is_visible)
+        return ;
+    square_size = MINIMAP_TILE_SIZE;
+    map_pos_x = MINIMAP_PADDING;
+    map_pos_y = MINIMAP_PADDING;
+    max_width = 0;
+    for (int i = 0; i < data->height; i++)
+    {
+        int len = data->map[i] ? ft_strlen(data->map[i]) : 0;
+        max_width = (len > max_width) ? len : max_width;
+    }
+    draw_minimap_background(data, map_pos_x, map_pos_y, square_size, max_width);
+    draw_map_tiles(data, map_pos_x, map_pos_y, square_size);
+    player_pos.x = map_pos_x + (int)(data->player.player_x / TILE_SIZE
+            * square_size) - 2;
+    player_pos.y = map_pos_y + (int)(data->player.player_y / TILE_SIZE
+            * square_size) - 2;
+    draw_square(data, player_pos, 4, 0xFF0000FF);
+    player_pos.x += 2;
+    player_pos.y += 2;
+    draw_player_direction(data, player_pos.x, player_pos.y, square_size);
 }
