@@ -50,7 +50,7 @@ $(BINDIR)/%.o: %.c | $(BINDIR)
 $(LIB):
 	@if [ ! -d "libraries" ]; then \
 		echo "Cloning libraries..."; \
-		git clone git@github.com:makecy/libraries.git && \
+		git clone https://github.com/makecy/libraries.git && \
 		make -C libraries; \
 	else \
 		make -C libraries; \
