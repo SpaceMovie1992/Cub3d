@@ -6,7 +6,7 @@
 /*   By: ahusic <ahusic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 18:11:19 by ahusic            #+#    #+#             */
-/*   Updated: 2025/02/10 22:20:01 by ahusic           ###   ########.fr       */
+/*   Updated: 2025/02/10 22:48:38 by ahusic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,12 @@ int	char_position_check(t_data *data)
 			if (!ft_strchr("01NSEW ", data->map[i][j]))
 				return (printf("Error\nInvalid character in map\n"), 0);
 			if (ft_strchr("NSWE", data->map[i][j])
-				&& ((data->pos_x != -1 || data->pos_y != -1)
+				&& ((data->pos_x != -1 && data->pos_y != -1)
 					|| !set_player_pos(data, i, j)))
-				return (printf("Error\nMultiple player positions in map\n"), 0);
+				return (printf("Error\nMultiple players in map\n"), 0);
 		}
 	}
-	return (data->pos_x != -1 && data->pos_y != -1);
+	if (data->pos_x == -1 || data->pos_y == -1)
+		return (printf("Error\nNo player in map\n"), 0);
+	return (1);
 }

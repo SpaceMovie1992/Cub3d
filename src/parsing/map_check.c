@@ -6,7 +6,7 @@
 /*   By: ahusic <ahusic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 18:29:58 by ahusic            #+#    #+#             */
-/*   Updated: 2025/02/10 22:11:39 by ahusic           ###   ########.fr       */
+/*   Updated: 2025/02/10 22:35:46 by ahusic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ int	map_check(t_data *data)
 {
 	int	i;
 	int	j;
-	int	len;
 
 	if (!data->map)
 		return (0);
@@ -34,7 +33,6 @@ int	map_check(t_data *data)
 	while (data->map[++i])
 	{
 		j = -1;
-		len = ft_strlen(data->map[i]);
 		while (data->map[i][++j])
 		{
 			if (data->map[i][j] == '0' || ft_strchr("NSEW", data->map[i][j]))
@@ -49,7 +47,7 @@ int	map_check(t_data *data)
 
 int	check_valid_position(t_data *data, int x, int y)
 {
-	if (y <= 0 || !data->map[y + 1] || x <= 0 
+	if (y <= 0 || !data->map[y + 1] || x <= 0
 		|| x >= (int)ft_strlen(data->map[y]) - 1)
 		return (0);
 	if (x >= (int)ft_strlen(data->map[y - 1])
