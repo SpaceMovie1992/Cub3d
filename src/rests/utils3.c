@@ -41,7 +41,10 @@ int	get_max_width(t_data *data)
 	max_width = 0;
 	while (i < data->height)
 	{
-		len = data->map[i] ? ft_strlen(data->map[i]) : 0;
+		if (data->map[i] != NULL)
+			len = ft_strlen(data->map[i]);
+		else
+			len = 0;
 		if (len > max_width)
 			max_width = len;
 		i++;
