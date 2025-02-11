@@ -6,11 +6,11 @@
 /*   By: ahusic <ahusic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 17:09:21 by ahusic            #+#    #+#             */
-/*   Updated: 2025/02/11 18:36:18 by ahusic           ###   ########.fr       */
+/*   Updated: 2025/02/11 19:42:03 by ahusic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/cub3d.h"
+#include "../../inc/cub3d.h"
 
 void	calc_step_y(t_ray *ray, t_player *player)
 {

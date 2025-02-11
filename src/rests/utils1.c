@@ -6,11 +6,11 @@
 /*   By: ahusic <ahusic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 16:51:46 by ahusic            #+#    #+#             */
-/*   Updated: 2025/02/06 18:05:31 by ahusic           ###   ########.fr       */
+/*   Updated: 2025/02/11 19:42:12 by ahusic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/cub3d.h"
+#include "../../inc/cub3d.h"
 
 void	handle_rotation(t_data *data)
 {
