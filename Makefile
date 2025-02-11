@@ -1,6 +1,6 @@
 NAME = cub3D
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g -I./inc -fsanitize=leak -fno-omit-frame-pointer
+CFLAGS = -Wall -Wextra -Werror -g -I./inc
 MLXFLAGS = -lm -lglfw -lpthread -lstdc++
 
 LIB = ./libraries/libraries.a
@@ -25,7 +25,8 @@ SRCS = src/main.c src/parsing/checks.c \
 				src/execution/texture.c \
 				src/rests/utils.c \
 				src/rests/utils1.c \
-				src/rests/utils2.c 
+				src/rests/utils2.c \
+				src/rests/utils3.c 
 OBJS = $(SRCS:%.c=$(BINDIR)/%.o)
 
 all: $(NAME)

@@ -6,7 +6,7 @@
 /*   By: ahusic <ahusic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 21:12:53 by ahusic            #+#    #+#             */
-/*   Updated: 2025/02/10 22:33:01 by ahusic           ###   ########.fr       */
+/*   Updated: 2025/02/11 19:16:21 by ahusic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,4 +106,10 @@ int				init_game(t_data *data, char *map_path);
 
 void			cleanup_map(t_data *data);
 void			cleanup_texture_paths(t_data *data);
+void			draw_tile(t_data *data, t_pos pos, char tile, int square_size);
+uint32_t		get_tile_color(char tile);
+int				get_max_width(t_data *data);
+void			handle_minimap(t_data *data, int *cooldown,
+					bool *minimap_toggle);
+
 #endif

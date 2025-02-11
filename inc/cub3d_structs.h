@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_structs.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstefano <mstefano@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahusic <ahusic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 20:09:48 by ahusic            #+#    #+#             */
-/*   Updated: 2025/02/10 17:49:45 by mstefano         ###   ########.fr       */
+/*   Updated: 2025/02/11 18:32:02 by ahusic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ typedef struct s_data
 	double			plane_x;
 	double			plane_y;
 	void			*win;
+	int				background_width;
 	t_minimap		minimap;
 }					t_data;
 

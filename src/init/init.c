@@ -6,7 +6,7 @@
 /*   By: ahusic <ahusic@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 15:54:49 by mstefano          #+#    #+#             */
-/*   Updated: 2025/02/10 21:56:06 by ahusic           ###   ########.fr       */
+/*   Updated: 2025/02/11 18:27:41 by ahusic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,11 +74,10 @@ void	init_data(t_data *data)
 	init_data1(data);
 }
 
-int	init_game(t_data *data, char *map_path)
+static int	parse_and_validate(t_data *data, char *map_path)
 {
 	int	fd;
 
-	init_data(data);
 	fd = open(map_path, O_RDONLY);
 	if (fd < 0)
 		return (printf("Error\nCannot open map file\n"), 0);
@@ -96,6 +95,14 @@ int	init_game(t_data *data, char *map_path)
 		cleanup_map(data);
 		return (0);
 	}
+	return (1);
+}
+
+int	init_game(t_data *data, char *map_path)
+{
+	init_data(data);
+	if (!parse_and_validate(data, map_path))
+		return (0);
 	data->mlx = mlx_init(SCREEN_WIDTH, SCREEN_HEIGHT, "cub3D", true);
 	if (!data->mlx)
 	{
