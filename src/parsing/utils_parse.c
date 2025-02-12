@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_parse.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahusic <ahusic@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mstefano <mstefano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 21:36:49 by ahusic            #+#    #+#             */
-/*   Updated: 2025/02/11 18:34:38 by ahusic           ###   ########.fr       */
+/*   Updated: 2025/02/12 19:11:43 by mstefano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	process_line(char *content, t_data *data, int fd)
 		if (!color_parse(content + 2, data, 'c'))
 			return (0);
 	}
-	else if (content[0] == '1' || content[0] == ' ')
+	else if (content[0] == '1' || content[0] == ' ' || content[0] == '0')
 	{
 		if (!map_parse(fd, data, content))
 			return (0);
@@ -55,7 +55,7 @@ int	save_content(char *content, t_data *data, int fd)
 		}
 		result = process_line(content, data, fd);
 		if (result == 0)
-			return (free(content), 0);
+			return (0);
 		if (result == 2)
 			break ;
 		free(content);

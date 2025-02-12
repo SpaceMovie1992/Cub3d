@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahusic <ahusic@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mstefano <mstefano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 21:12:53 by ahusic            #+#    #+#             */
-/*   Updated: 2025/02/11 19:16:21 by ahusic           ###   ########.fr       */
+/*   Updated: 2025/02/12 19:13:35 by mstefano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,6 @@ void			cleanup_textures(t_data *data);
 void			draw_square(t_data *data, t_pos pos, int size, uint32_t color);
 int				is_valid_pos(t_data *data, int map_x, int map_y);
 void			handle_rotation(t_data *data);
-
-// spliting
-
 int				calc_tex_x(t_ray *ray, t_data *data, mlx_texture_t *texture,
 					int side);
 mlx_texture_t	*select_texture(t_data *data, t_ray *ray, int side);
