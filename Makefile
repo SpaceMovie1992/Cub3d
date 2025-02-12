@@ -26,8 +26,7 @@ SRCS = src/main.c src/parsing/checks.c \
 				src/rests/utils.c \
 				src/rests/utils1.c \
 				src/rests/utils2.c \
-				src/rests/utils3.c \
-				CUnit/CUnit.c CUnit/mem.c CUnit/toolbox.c CUnit/var.c
+				src/rests/utils3.c 
 OBJS = $(SRCS:%.c=$(BINDIR)/%.o)
 
 all: $(NAME)
