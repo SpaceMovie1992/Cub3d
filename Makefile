@@ -41,7 +41,7 @@ $(BINDIR):
 $(MLX):
 	@if [ ! -d "MLX42" ]; then \
 		git clone https://github.com/codam-coding-college/MLX42.git && \
-		cd MLX42 && git checkout tags/v2.3.4 && cmake -B build && cmake --build build -j4; \
+		cd MLX42 && cmake -B build && cmake --build build -j4; \
 	fi
 
 $(BINDIR)/%.o: %.c | $(BINDIR)
@@ -74,7 +74,6 @@ re: fclean all
 
 .PHONY: all clean fclean re
 
-# Colors
 DEFAULT = "\033[39m"
 GREEN = "\033[32m"
 RED = "\033[31m"
