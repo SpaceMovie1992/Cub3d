@@ -2,10 +2,6 @@
 
 `cub3D` is a 3D raycasting engine built in C with the MLX42 graphics library. The program reads a `.cub` map file, validates the level layout and resources, then renders a first-person view of the maze with textured walls, ceiling and floor colors, player movement, rotation, and a minimap overlay.
 
-## Screenshots
-
-![Gameplay](Screenshot%202026-04-20%20104428.png)
-
 ## Features
 
 - Parses `.cub` configuration files
