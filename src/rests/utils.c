@@ -45,8 +45,16 @@ void	cleanup_textures(t_data *data)
 {
 	if (data->no_texture)
 		mlx_delete_texture(data->no_texture);
+	if (data->so_texture)
+		mlx_delete_texture(data->so_texture);
 	if (data->we_texture)
 		mlx_delete_texture(data->we_texture);
+	if (data->ea_texture)
+		mlx_delete_texture(data->ea_texture);
+	data->no_texture = NULL;
+	data->so_texture = NULL;
+	data->we_texture = NULL;
+	data->ea_texture = NULL;
 }
 
 void	draw_square(t_data *data, t_pos pos, int size, uint32_t color)

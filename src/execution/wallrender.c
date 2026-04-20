@@ -102,29 +102,35 @@ void	render_walls(t_data *data)
 	}
 }
 
+static mlx_texture_t	*load_scaled_texture(char *path)
+{
+	mlx_texture_t	*temp;
+	mlx_texture_t	*scaled;
+
+	temp = mlx_load_png(path);
+	if (!temp)
+		return (NULL);
+	scaled = scale_texture(temp, TEXTURE_SIZE, TEXTURE_SIZE);
+	mlx_delete_texture(temp);
+	return (scaled);
+}
+
 bool	load_textures(t_data *data)
 {
-	mlx_texture_t	*temp_we;
-	mlx_texture_t	*temp_no;
-
 	if (!data->no_texture_path || !data->so_texture_path
 		|| !data->we_texture_path || !data->ea_texture_path)
 		return (false);
-	temp_no = mlx_load_png(data->no_texture_path);
-	if (!temp_no)
-		return (false);
-	data->no_texture = scale_texture(temp_no, TEXTURE_SIZE, TEXTURE_SIZE);
-	mlx_delete_texture(temp_no);
+	data->no_texture = load_scaled_texture(data->no_texture_path);
 	if (!data->no_texture)
 		return (false);
-	data->so_texture = data->no_texture;
-	temp_we = mlx_load_png(data->we_texture_path);
-	if (!temp_we)
-		return (mlx_delete_texture(data->no_texture), false);
-	data->we_texture = scale_texture(temp_we, TEXTURE_SIZE, TEXTURE_SIZE);
-	mlx_delete_texture(temp_we);
+	data->so_texture = load_scaled_texture(data->so_texture_path);
+	if (!data->so_texture)
+		return (cleanup_textures(data), false);
+	data->we_texture = load_scaled_texture(data->we_texture_path);
 	if (!data->we_texture)
-		return (mlx_delete_texture(data->no_texture), false);
-	data->ea_texture = data->we_texture;
+		return (cleanup_textures(data), false);
+	data->ea_texture = load_scaled_texture(data->ea_texture_path);
+	if (!data->ea_texture)
+		return (cleanup_textures(data), false);
 	return (true);
 }
